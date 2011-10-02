@@ -39,6 +39,13 @@ namespace Frostbyte
         }
 
         /// <summary>
+        /// Target lists
+        /// </summary>
+        internal List<Sprite> allies = new List<Sprite>();
+        internal List<Sprite> enemies = new List<Sprite>();
+        internal List<Sprite> obstacles = new List<Sprite>();
+
+        /// <summary>
         /// A list of levels in the order they should be played through
         /// </summary>
         internal static List<string> LevelProgression = new List<string>()

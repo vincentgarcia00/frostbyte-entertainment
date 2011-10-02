@@ -108,6 +108,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Characters\Mage.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Frostbyte.cs" />
     <Compile Include="Engine\Actor.cs" />
     <Compile Include="Engine\Animation.cs" />
@@ -131,6 +133,8 @@
     <Compile Include="LoadResources.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SpriteClasses.cs" />
+    <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
