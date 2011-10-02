@@ -1,0 +1,21 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LevelEditor" x:Name="userControl"
+			x:Class="LevelEditor.TileGroup" 
+             mc:Ignorable="d"
+			 >
+	<UserControl.Resources>
+		<local:TransformConverter x:Key="NameConverter"/>
+	</UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="textBlock" Text="{Binding GroupName, FallbackValue=Test}" Grid.Row="0" HorizontalAlignment="Left" ToolTip="{Binding Text, ElementName=textBlock}" />
+        <ListBox x:Name="Tiles" Grid.Row="1" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Tiles, ElementName=userControl}"/>
+    </Grid>
+</UserControl>

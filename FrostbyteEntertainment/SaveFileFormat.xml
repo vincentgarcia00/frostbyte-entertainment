@@ -16,7 +16,7 @@
       2 - Water
       3 - Fire
     -->
-    <Location Type="Dungeon" Theme="0"/>
+    <Location Theme="0"/>
   </SaveState>
   <Tiles>
     <!--

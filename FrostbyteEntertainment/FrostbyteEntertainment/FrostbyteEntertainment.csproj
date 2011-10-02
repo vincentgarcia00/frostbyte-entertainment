@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="Characters\Mage.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Frostbyte.cs" />
     <Compile Include="Engine\Actor.cs" />
     <Compile Include="Engine\Animation.cs" />
