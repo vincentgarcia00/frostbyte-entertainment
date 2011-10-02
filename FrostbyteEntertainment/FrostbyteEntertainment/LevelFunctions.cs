@@ -116,7 +116,8 @@ namespace Frostbyte
                 for (int i = 0; i < numEnemies; i++)
                 {
                     Sprite virus = constructEnemy();
-                    virus.Pos = position + new Vector2((float)(Math.Cos(angleInc * i + startAngle) * radius), (float)(Math.Sin(angleInc * i + startAngle) * radius));
+                    virus.Pos = position + new Vector2((float)(Math.Cos(angleInc * i + startAngle) * radius * rand.NextDouble()),
+                        (float)(Math.Sin(angleInc * i + startAngle) * radius * rand.NextDouble()));
                 }
 #if NOCHEATS
 #else

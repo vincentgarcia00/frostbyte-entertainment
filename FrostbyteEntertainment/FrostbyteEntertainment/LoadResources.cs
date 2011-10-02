@@ -10,7 +10,7 @@ namespace Frostbyte
 
 
         void LoadResources(){
-            //mLevels.Add(new FrostbyteLevel("stageclear", Levels.StageClear.Load, Levels.StageClear.Update, Levels.StageClear.Unload, Levels.StageClear.CompletionCondition));
+            mLevels.Add(new FrostbyteLevel("TitleScreen", Levels.Test.Load, Levels.Test.Update, delegate() { }, delegate() { return false; }));
         }
     }
 }

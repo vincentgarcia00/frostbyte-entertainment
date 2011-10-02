@@ -33,14 +33,17 @@ namespace Frostbyte
         {
             /// \todo This needs to dissapear. Should only ever happen once
             var BG = This.Game.CurrentLevel.Background;
-            foreach (var obj in BG.GetObjects())
+            if (BG != null)
             {
-                //make sure we've got a bucket list
-                while (Collision.Buckets.Count - 1 < obj.CollisionList)
+                foreach (var obj in BG.GetObjects())
                 {
-                    Collision.Buckets.Add(new Dictionary<Vector2, List<WorldObject>>());
+                    //make sure we've got a bucket list
+                    while (Collision.Buckets.Count - 1 < obj.CollisionList)
+                    {
+                        Collision.Buckets.Add(new Dictionary<Vector2, List<WorldObject>>());
+                    }
+                    obj.Col.addToBucket(obj);
                 }
-                obj.Col.addToBucket(obj);
             }
 
             foreach (WorldObject worldObject in This.Game.CurrentLevel.mSprites)
