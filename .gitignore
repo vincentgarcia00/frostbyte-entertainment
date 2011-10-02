@@ -43,3 +43,9 @@ _ReSharper*/
 
 # Office Temp Files
 ~$*
+
+#Vim files
+*.swp
+
+#doxygen doc dir
+doc/

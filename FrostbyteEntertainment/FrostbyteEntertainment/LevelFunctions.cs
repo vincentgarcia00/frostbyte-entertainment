@@ -73,7 +73,8 @@ namespace Frostbyte
         /// <summary>
         /// Spawns Enemies created by the EnemyFactory at random locations on the screen
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="constructEnemy">Function to define an enemy</param>
+        /// <param name="numEnemies">Number of enemies</param>
         internal static void Spawn(EnemyFactory constructEnemy, int numEnemies)
         {
 #if NOCHEATS

@@ -118,7 +118,8 @@ namespace Frostbyte
         /// <summary>
         /// Loads the animations from a file.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">Name of animfile</param>
+        /// <param name="contentSubfolder">Folder where content is stored</param>
         private void LoadAnimation(string filename, string contentSubfolder)
         {
             filename = String.Format("Content/{0}/{1}", contentSubfolder, filename);

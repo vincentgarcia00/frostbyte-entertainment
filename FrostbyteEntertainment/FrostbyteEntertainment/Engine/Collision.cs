@@ -256,8 +256,9 @@ namespace Frostbyte
         /// Determine if BoundingCircle and BoundingCircle collide
         /// </summary>
         /// /// <param name="w1">This Collision data's world object</param>
+        /// /// <param name="c1">Circle to check</param>
         /// <param name="w2">Other collision data's world object</param>
-        /// <param name="c2">Collision circle which to check</param>
+        /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
         internal static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_BoundingCircle o)
         {
@@ -270,6 +271,7 @@ namespace Frostbyte
         /// Detects OBB on OBB collision
         /// </summary>
         /// <param name="w1">This Collision data's world object</param>
+        /// <param name="c1">OBB to check</param>
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
@@ -282,6 +284,7 @@ namespace Frostbyte
         /// Determine whether an AABB and AABB collide
         /// </summary>
         /// <param name="w1">This Collision data's world object</param>
+        /// <param name="a1">AABB which to check</param>
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">AABB which to check</param>
         /// <returns>Whether a collision occurred</returns>
@@ -303,8 +306,9 @@ namespace Frostbyte
         /// Determine if AABB and BoundingCircle collide
         /// </summary>
         /// /// <param name="w1">This Collision data's world object</param>
+        /// <param name="c1">Cricle to check</param>
         /// <param name="w2">Other collision data's world object</param>
-        /// <param name="a1">AABB which to check</param>
+        /// <param name="o">AABB which to check</param>
         /// <returns>Whether a collision occurred</returns>
         internal static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_AABB o)
         {
@@ -314,6 +318,7 @@ namespace Frostbyte
         /// Determine whether an AABB and Collision circle collide
         /// </summary>
         /// <param name="w1">This Collision data's world object</param>
+        /// <param name="a1">Collision AABB</param>
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
@@ -375,8 +380,9 @@ namespace Frostbyte
         /// Determine if OBB and BoundingCircle collide
         /// </summary>
         /// /// <param name="w1">This Collision data's world object</param>
+        /// <param name="c1">Cricle to check</param>
         /// <param name="w2">Other collision data's world object</param>
-        /// <param name="o1">OBB which to check</param>
+        /// <param name="o">OBB which to check</param>
         /// <returns>Whether a collision occurred</returns>
         internal static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_OBB o)
         {
@@ -386,6 +392,7 @@ namespace Frostbyte
         /// Detect of a Collision circle and OBB collide
         /// </summary>
         /// <param name="w1">This Collision data's world object</param>
+        /// <param name="o1">OBB to check</param>
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
