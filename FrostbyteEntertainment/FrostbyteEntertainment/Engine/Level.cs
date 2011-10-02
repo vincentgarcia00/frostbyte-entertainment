@@ -161,7 +161,10 @@ namespace Frostbyte
             This.Game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.GetTransformation(This.Game.GraphicsDevice));
 
             /** Draw Background */
-            Background.Draw(gameTime);
+            if (Background != null)
+            {
+                Background.Draw(gameTime);
+            }
 
             List<WorldObject> staticSprites = new List<WorldObject>();
 
