@@ -14,10 +14,10 @@ namespace Frostbyte
     /// </summary>
     static class GameData
     {
-        public static int Score { get; set; }
-        public static int NumberOfLives { get; set; }
-        public static readonly int DefaultNumberOfLives = 4;
-        public static int livesAwarded = 0;
+        internal static int Score { get; set; }
+        internal static int NumberOfLives { get; set; }
+        internal static readonly int DefaultNumberOfLives = 4;
+        internal static int livesAwarded = 0;
     }
 
     /// <summary>
@@ -25,15 +25,15 @@ namespace Frostbyte
     /// </summary>
     class FrostbyteLevel : Level
     {
-        public Vector2 PlayerSpawnPoint = new Vector2(50, 50);
+        internal Vector2 PlayerSpawnPoint = new Vector2(50, 50);
         internal int waveNumber;
 
         /// <summary>
         /// A count of the enemies defeated in this level
         /// </summary>
-        public int EnemiesDefeated { get; set; }
+        internal int EnemiesDefeated { get; set; }
 
-        public FrostbyteLevel(string n, Behavior loadBehavior, Behavior updateBehavior, Behavior endBehavior, Condition winCondition)
+        internal FrostbyteLevel(string n, Behavior loadBehavior, Behavior updateBehavior, Behavior endBehavior, Condition winCondition)
             : base(n, loadBehavior, updateBehavior, endBehavior, winCondition)
         {
         }

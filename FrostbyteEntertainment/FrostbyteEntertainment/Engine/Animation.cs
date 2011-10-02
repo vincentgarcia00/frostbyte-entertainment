@@ -32,33 +32,33 @@ namespace Frostbyte
     class Animation
     {
         #region Properties
-        public bool Built { get; set; }
-        public int NumFrames { get { return Frames.Count; } }
-        public string Name { get; set; }
+        internal bool Built { get; set; }
+        internal int NumFrames { get { return Frames.Count; } }
+        internal string Name { get; set; }
         #endregion
 
         #region Variables
         /// <summary>
         /// Animation Frames
         /// </summary>
-        public List<SpriteFrame> Frames = new List<SpriteFrame>();
+        internal List<SpriteFrame> Frames = new List<SpriteFrame>();
 
         #endregion
 
         #region Constructors
-        public Animation()
+        internal Animation()
         {
             Built = false;
         }
 
-        public Animation(string filename) : this(filename, filename) { }
+        internal Animation(string filename) : this(filename, filename) { }
 
-        public Animation(string filename, string name)
+        internal Animation(string filename, string name)
             : this(filename, name, "Sprites")
         {
         }
 
-        public Animation(string filename, string name, string contentSubfolder)
+        internal Animation(string filename, string name, string contentSubfolder)
         {
             Name = name;
             LoadAnimation(filename, contentSubfolder);
@@ -125,7 +125,7 @@ namespace Frostbyte
                         string[] br = collision.Attribute("BRPos").Value.Split(',');
                         float brx = float.Parse(tl[0]);
                         float bry = float.Parse(tl[1]);
-                        sf.CollisionData.Add( new Collision_AABB(
+                        sf.CollisionData.Add(new Collision_AABB(
                             idCount++,
                             new Vector2(tlx, tly),
                             new Vector2(brx, bry)
@@ -187,43 +187,6 @@ namespace Frostbyte
         }
 
         /// <summary>
-        /// Return the hash code for this string.
-        /// </summary>
-        //public override int GetHashCode(object obj)
-        //{
-        //    // Stores the result.
-        //    int result = 0;
-
-        //    // Don't compute hash code on null object.
-        //    if (obj == null)
-        //    {
-        //        return 0;
-        //    }
-
-        //    //if it's not an animation
-        //    if (obj as Animation == null)
-        //        return 0;
-
-        //    string n = (obj as Animation).Name;
-
-        //    // Get length.
-        //    int length = n.Length;
-
-        //    // Return default code for zero-length strings [valid, nothing to hash with].
-        //    if (length > 0)
-        //    {
-        //        // Compute hash for strings with length greater than 1
-        //        char let1 = n[0];          // First char of string we use
-        //        char let2 = n[length - 1]; // Final char
-
-        //        // Compute hash code from two characters
-        //        int part1 = let1 + length;
-        //        result = (_multiplier * part1) + let2 + length;
-        //    }
-        //    return result;
-        //}
-
-        /// <summary>
         /// Has a good distribution.
         /// </summary>
         const int _multiplier = 89;
@@ -231,22 +194,12 @@ namespace Frostbyte
         #endregion Compare
     }
 
-    class BackgroundAnimation : Animation
-    {
-        public BackgroundAnimation(string filename)
-            : this(filename, filename)
-        {
-        }
-
-        public BackgroundAnimation(string filename, string name)
-            : base(filename, name, "Backgrounds")
-        {
-        }
-    }
-
+    /// <summary>
+    /// To render Text
+    /// </summary>
     class DummyAnimation : Animation
     {
-        public DummyAnimation(string name)
+        internal DummyAnimation(string name)
         {
             Name = name;
             Built = true;

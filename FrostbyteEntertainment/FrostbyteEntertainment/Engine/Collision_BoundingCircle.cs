@@ -7,12 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Frostbyte
 {
-    public class Collision_BoundingCircle : CollisionObject
+    internal class Collision_BoundingCircle : CollisionObject
     {
         /// <summary>
         /// Initializes a Bounding Circle.
         /// </summary>
-        public Collision_BoundingCircle(int _id, Vector2 _centerPointOffset, float _radius)
+        internal Collision_BoundingCircle(int _id, Vector2 _centerPointOffset, float _radius)
         {
             centerPointOffset = _centerPointOffset;
             radius = _radius;
@@ -35,17 +35,17 @@ namespace Frostbyte
         /// <summary>
         /// Offset of centerPoint from sprite anchor.
         /// </summary>
-        public Vector2 centerPointOffset { get; set; }
+        internal Vector2 centerPointOffset { get; set; }
 
         /// <summary>
         /// Radius of circle.
         /// </summary>
-        public float radius { get; set; }
+        internal float radius { get; set; }
 
         /// <summary>
         /// Determines which grid cells the object is in
         /// </summary>
-        public override List<Vector2> gridLocations(WorldObject worldObject)
+        internal override List<Vector2> gridLocations(WorldObject worldObject)
         {
             int bottomLeftX = (int)(worldObject.Pos.X + centerPointOffset.X - radius) / (int)Collision.gridCellWidth;
             int bottomLeftY = (int)(worldObject.Pos.Y + centerPointOffset.Y - radius) / (int)Collision.gridCellHeight;
@@ -68,7 +68,7 @@ namespace Frostbyte
         /// <summary>
         /// Add this CollisionObject to bucket.
         /// </summary>
-        public override void addToBucket(WorldObject worldObject)
+        internal override void addToBucket(WorldObject worldObject)
         {
             int bottomLeftX = (int)(worldObject.Pos.X + centerPointOffset.X - radius) / (int)Collision.gridCellWidth;
             int bottomLeftY = (int)(worldObject.Pos.Y + centerPointOffset.Y - radius) / (int)Collision.gridCellHeight;
@@ -78,7 +78,7 @@ namespace Frostbyte
             AddToBucket(worldObject, bottomLeftX, bottomLeftY, topRightX, topRightY);
         }
 
-        public override void draw(WorldObject world, Matrix transformation)
+        internal override void draw(WorldObject world, Matrix transformation)
         {
             Collision.basicEffect.World = Matrix.CreateTranslation(new Vector3(world.Pos,0)) * transformation;
 

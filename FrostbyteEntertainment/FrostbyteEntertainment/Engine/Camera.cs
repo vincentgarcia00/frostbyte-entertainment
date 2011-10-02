@@ -7,18 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Frostbyte
 {
-    public class Camera
+    internal class Camera
     {
         protected float _zoom;
         protected float _rotation;
-        protected Matrix _transform;
 
-        public Camera()
+        internal Camera()
         {
             _zoom = 1.0f;
         }
 
-        public float Rotation
+        internal float Rotation
         {
             get
             {
@@ -45,12 +44,11 @@ namespace Frostbyte
 
             }
         }
-        public Vector2 RotationPoint { get; set; }
-        /*public Vector2 RotationPoint = new Vector2(This.Game.GraphicsDevice.Viewport.Width * 0.5f,
-                                                   This.Game.GraphicsDevice.Viewport.Height * 0.5f);*/
-        public Vector2 Pos { get; set; }
+        internal Vector2 RotationPoint { get; set; }
 
-        public float Zoom
+        internal Vector2 Pos { get; set; }
+
+        internal float Zoom
         {
             get { return _zoom; }
             set
@@ -63,7 +61,7 @@ namespace Frostbyte
             }
         }
 
-        public Matrix GetTransformation(GraphicsDevice device)
+        internal Matrix GetTransformation(GraphicsDevice device)
         {
             // To rotate around a fixed point, must translate the everything to (0,0),
             // rotate, then translate back

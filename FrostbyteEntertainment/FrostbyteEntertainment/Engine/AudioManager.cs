@@ -9,10 +9,10 @@ namespace Frostbyte
 {
     class AudioManager
     {
-        public Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
-        public Dictionary<string, Song> backgroundMusic = new Dictionary<string, Song>();
+        internal Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
+        internal Dictionary<string, Song> backgroundMusic = new Dictionary<string, Song>();
 
-        public void AddBackgroundMusic(string name)
+        internal void AddBackgroundMusic(string name)
         {
             try{
                 backgroundMusic[name] = This.Game.Content.Load<Song>("Audio/" + name);
@@ -23,7 +23,7 @@ namespace Frostbyte
             }
         }
 
-        public void PlayBackgroundMusic(string name)
+        internal void PlayBackgroundMusic(string name)
         {
             if (backgroundMusic.ContainsKey(name))
             {
@@ -39,12 +39,12 @@ namespace Frostbyte
             }
         }
 
-        public void BackgroundMusicVolume(float volume)
+        internal void BackgroundMusicVolume(float volume)
         {
             MediaPlayer.Volume = volume;
         }
 
-        public void AddSoundEffect(string name)
+        internal void AddSoundEffect(string name)
         {
             try
             {
@@ -56,12 +56,12 @@ namespace Frostbyte
             }
         }
 
-        public void PlaySoundEffect(string name)
+        internal void PlaySoundEffect(string name)
         {
             PlaySoundEffect(name, 1f);
         }
 
-        public void PlaySoundEffect(string name, float volume)
+        internal void PlaySoundEffect(string name, float volume)
         {
             if (soundEffects.ContainsKey(name))
             {
@@ -71,7 +71,7 @@ namespace Frostbyte
             }
         }
 
-        public void Pause()
+        internal void Pause()
         {
             if (MediaPlayer.State == MediaState.Playing)
             {

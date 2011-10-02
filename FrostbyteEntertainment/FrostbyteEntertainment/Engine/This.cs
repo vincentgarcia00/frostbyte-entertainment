@@ -11,6 +11,6 @@ namespace Frostbyte
         internal static Game Game;
         internal static GameTime gameTime;
 
-        public static bool Cheats = false;
+        internal static bool Cheats = false;
     }
 }

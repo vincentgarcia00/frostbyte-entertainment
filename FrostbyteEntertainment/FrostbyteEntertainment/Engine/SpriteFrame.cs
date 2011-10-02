@@ -13,33 +13,33 @@ namespace Frostbyte
         /// <summary>
         /// Image Texture
         /// </summary>
-        public Texture2D Image { get; set; }
+        internal Texture2D Image { get; set; }
 
         /// <summary>
         /// Amount of time to pause between
         /// this frame and next.
         /// </summary>
-        public long Pause { get; set; }
+        internal long Pause { get; set; }
 
         /// <summary>
         /// The offeset from center of the sprite of the image. Defaults to (0,0)
         /// </summary>
-        public Vector2 AnimationPeg { get; set; }
+        internal Vector2 AnimationPeg { get; set; }
 
         /// <summary>
         /// The frame's width
         /// </summary>
-        public int Width { get; set; }
+        internal int Width { get; set; }
 
         /// <summary>
         ///  The frame's height
         /// </summary>
-        public int Height { get; set; }
+        internal int Height { get; set; }
 
         /// <summary>
         /// Position of the top left corner
         /// </summary>
-        public Vector2 StartPos { get; set; }
+        internal Vector2 StartPos { get; set; }
         #endregion
 
         #region Variables
@@ -49,12 +49,12 @@ namespace Frostbyte
         ///  default is tagged to center
         ///  of the sprite
         /// </summary>
-        public List<Point> HotSpots = new List<Point>();
+        internal List<Vector2> HotSpots = new List<Vector2>();
 
         /// <summary>
         /// The collision data for this sprite.
         /// </summary>
-        public List<CollisionObject> CollisionData = new List<CollisionObject>();
+        internal List<CollisionObject> CollisionData = new List<CollisionObject>();
         #endregion
     }
 }

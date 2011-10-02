@@ -10,7 +10,7 @@ namespace Frostbyte
 {
     internal static class LevelFunctions
     {
-        public delegate Sprite EnemyFactory();
+        internal delegate Sprite EnemyFactory();
 
         internal static readonly Random rand = new Random();
 
@@ -74,7 +74,7 @@ namespace Frostbyte
         /// Spawns Enemies created by the EnemyFactory at random locations on the screen
         /// </summary>
         /// <param name="gameTime"></param>
-        public static void Spawn(EnemyFactory constructEnemy, int numEnemies)
+        internal static void Spawn(EnemyFactory constructEnemy, int numEnemies)
         {
 #if NOCHEATS
 #else
@@ -102,7 +102,7 @@ namespace Frostbyte
         /// <param name="constructEnemy"></param>
         /// <param name="numEnemies"></param>
         /// <param name="position"></param>
-        public static void Spawn(EnemyFactory constructEnemy, int numEnemies, Vector2 position)
+        internal static void Spawn(EnemyFactory constructEnemy, int numEnemies, Vector2 position)
         {
 #if NOCHEATS
 #else

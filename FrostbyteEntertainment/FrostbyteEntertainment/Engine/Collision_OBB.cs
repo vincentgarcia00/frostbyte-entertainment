@@ -7,12 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Frostbyte
 {
-    public class Collision_OBB : CollisionObject
+    internal class Collision_OBB : CollisionObject
     {
         /// <summary>
         /// Initializes a Bounding Circle.
         /// </summary>
-        public Collision_OBB(int _id, Vector2 _cornerOffset1, Vector2 _cornerOffset2, float _thickness)
+        internal Collision_OBB(int _id, Vector2 _cornerOffset1, Vector2 _cornerOffset2, float _thickness)
         {
             cornerOffset1 = _cornerOffset1;
             cornerOffset2 = _cornerOffset2;
@@ -40,22 +40,22 @@ namespace Frostbyte
         /// <summary>
         /// Offset of Corner1 from sprite anchor.
         /// </summary>
-        public Vector2 cornerOffset1 { get; set; }
+        internal Vector2 cornerOffset1 { get; set; }
 
         /// <summary>
         /// Offset of Corner2 from sprite anchor.
         /// </summary>
-        public Vector2 cornerOffset2 { get; set; }
+        internal Vector2 cornerOffset2 { get; set; }
 
         /// <summary>
         /// Thickness of box
         /// </summary>
-        public float thickness { get; set; }
+        internal float thickness { get; set; }
 
         /// <summary>
         /// Determines which grid cells the object is in
         /// </summary>
-        public override List<Vector2> gridLocations(WorldObject worldObject)
+        internal override List<Vector2> gridLocations(WorldObject worldObject)
         {
             //int bottomLeftX = (int)(parentObject.Pos.X + topLeftPointOffset.X) / (int)Collision.gridCellWidth;
             //int bottomLeftY = (int)(parentObject.Pos.Y + bottomRightPointOffset.Y) / (int)Collision.gridCellHeight;
@@ -78,7 +78,7 @@ namespace Frostbyte
         /// <summary>
         /// Add this CollisionObject to bucket.
         /// </summary>
-        public override void addToBucket(WorldObject worldObject)
+        internal override void addToBucket(WorldObject worldObject)
         {
             //if (previousPos == worldObject.Pos)
             //{
@@ -173,7 +173,7 @@ namespace Frostbyte
             //}
         }
 
-        public override void draw(WorldObject world, Matrix transformation)
+        internal override void draw(WorldObject world, Matrix transformation)
         {
             Collision.basicEffect.World = Matrix.CreateTranslation(new Vector3(world.Pos, 0)) * transformation;
 

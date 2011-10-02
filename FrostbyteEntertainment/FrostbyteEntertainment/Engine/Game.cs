@@ -11,8 +11,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Frostbyte
 {
-    public delegate void Behavior();
-    public delegate bool Condition();
+    internal delegate void Behavior();
+    internal delegate bool Condition();
 
     /// <summary>
     /// High-level controller for the game
@@ -27,11 +27,11 @@ namespace Frostbyte
         /// <summary>
         /// Decides whether or not to draw bounding boxes
         /// </summary>
-        public static bool ShowCollisionData { get { return Collision.ShowCollisionData; } set { Collision.ShowCollisionData = value; } }
+        internal static bool ShowCollisionData { get { return Collision.ShowCollisionData; } set { Collision.ShowCollisionData = value; } }
         /// <summary>
         /// Decides whether or not to draw FPS
         /// </summary>
-        public bool ShowFPS { get; set; }
+        internal bool ShowFPS { get; set; }
 
         /// <summary>
         /// Gets the current level being played.
@@ -133,7 +133,7 @@ namespace Frostbyte
         #endregion
 
         #region Constructor
-        public Game()
+        internal Game()
         {
             graphics = new GraphicsDeviceManager(this);
             //remove this to make it strech
@@ -277,7 +277,7 @@ namespace Frostbyte
         /// Sets the current level.
         /// </summary>
         /// <param name="name"></param>
-        public void SetCurrentLevel(string name)
+        internal void SetCurrentLevel(string name)
         {
             //if this is the expected level to load load it.
             if (mNextLevel >= 0 && mLevels[mNextLevel].Name == name)
@@ -306,7 +306,7 @@ namespace Frostbyte
         /// Loads the specified level
         /// </summary>
         /// <param name="name">name of the level to load</param>
-        public void LoadLevel(string name)
+        internal void LoadLevel(string name)
         {
             for (int i = 0, count = mLevels.Count; i < count; i++)
             {

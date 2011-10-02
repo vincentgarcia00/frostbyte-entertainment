@@ -11,13 +11,13 @@ namespace Frostbyte
     {
 
         #region Constructor
-        public Level()
+        internal Level()
         {
             LoadBehavior = () => { };
             UpdateBehavior = () => { };
             EndBehavior = () => { };
         }
-        public Level(string n, Behavior loadBehavior, Behavior updateBehavior, Behavior endBehavior, Condition winCondition)
+        internal Level(string n, Behavior loadBehavior, Behavior updateBehavior, Behavior endBehavior, Condition winCondition)
         {
             mName = n;
             LoadBehavior = loadBehavior;
@@ -31,36 +31,36 @@ namespace Frostbyte
         /// <summary>
         /// Level's load action
         /// </summary>
-        public Behavior LoadBehavior { get; set; }
+        internal Behavior LoadBehavior { get; set; }
         /// <summary>
         /// Level's update Behavior
         /// </summary>
-        public Behavior UpdateBehavior { get; set; }
+        internal Behavior UpdateBehavior { get; set; }
         /// <summary>
         /// Level's End Behavior
         /// </summary>
-        public Behavior EndBehavior { get; set; }
+        internal Behavior EndBehavior { get; set; }
         #endregion Behaviors
 
         #region Properties
         /// <summary>
         /// Get's level's name
         /// </summary>
-        public string Name { get { return mName; } }
+        internal string Name { get { return mName; } }
         /// <summary>
         /// Gets and Sets Level's current Background
         /// </summary>
-        public Background Background { get; set; }
+        internal Background Background { get; set; }
 
         /// <summary>
         /// A Condition to check if the level has been won
         /// </summary>
-        public Condition WinCondition { get; set; }
+        internal Condition WinCondition { get; set; }
 
         /// <summary>
         /// Tells whether the current level is loaded or not
         /// </summary>
-        public bool Loaded { get; set; }
+        internal bool Loaded { get; set; }
         #endregion Properties
 
         #region Variables
@@ -87,11 +87,11 @@ namespace Frostbyte
         protected List<WorldObject> ToAdd = new List<WorldObject>();
         protected List<WorldObject> ToRemove = new List<WorldObject>();
 
-        public Camera Camera = new Camera();
+        internal Camera Camera = new Camera();
 
         #endregion Variables
 
-        
+
         internal void Load()
         {
             This.Game.AudioManager.Stop();
@@ -158,9 +158,7 @@ namespace Frostbyte
         #region Draw
         internal void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            This.Game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,
-    null, null, null, null,
-    Camera.GetTransformation(This.Game.GraphicsDevice));
+            This.Game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.GetTransformation(This.Game.GraphicsDevice));
 
             /** Draw Background */
             Background.Draw(gameTime);
@@ -205,12 +203,12 @@ namespace Frostbyte
         #endregion Drawing
 
         #region Management
-        public void AddSprite(Sprite sp)
+        internal void AddSprite(Sprite sp)
         {
             ToAdd.Add(sp);
         }
 
-        public Sprite GetSprite(string name)
+        internal Sprite GetSprite(string name)
         {
             return (mSprites.Find(delegate(WorldObject s) { return s.Name == name; }) as Sprite);
         }
@@ -222,24 +220,24 @@ namespace Frostbyte
         /// </summary>
         /// <param name="typename">The type name to select by.</param>
         /// <returns></returns>
-        public List<Sprite> GetSpritesByType(string typename)
+        internal List<Sprite> GetSpritesByType(string typename)
         {
             return (mSprites.FindAll(
                 delegate(WorldObject s) { return s.GetType().Name == typename; }).ConvertAll<Sprite>(
                     delegate(WorldObject s) { return s as Sprite; }));
         }
 
-        public void RemoveSprite(Sprite sp)
+        internal void RemoveSprite(Sprite sp)
         {
             ToRemove.Add(sp);
         }
 
-        public void AddAnimation(Animation anim)
+        internal void AddAnimation(Animation anim)
         {
             mAnims[anim.Name] = anim;
         }
 
-        public Animation GetAnimation(string name)
+        internal Animation GetAnimation(string name)
         {
             if (mAnims.ContainsKey(name))
             {
@@ -251,7 +249,7 @@ namespace Frostbyte
             }
         }
 
-        public void RemoveAnimation(Animation anim)
+        internal void RemoveAnimation(Animation anim)
         {
             if (mAnims.ContainsKey(anim.Name))
             {
@@ -259,12 +257,12 @@ namespace Frostbyte
             }
         }
 
-        public void AddActor(string name, Actor actor)
+        internal void AddActor(string name, Actor actor)
         {
             mActors[name] = actor;
         }
 
-        public void RemoveActor(string name)
+        internal void RemoveActor(string name)
         {
             mActors.Remove(name);
         }

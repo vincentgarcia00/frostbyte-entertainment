@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FrostbyteEntertainment</RootNamespace>
+    <RootNamespace>Frostbyte</RootNamespace>
     <AssemblyName>FrostbyteEntertainment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -51,7 +51,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;NOCHEATS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -119,7 +119,6 @@
     <Compile Include="Engine\CollisionObject.cs" />
     <Compile Include="Engine\Collision_AABB.cs" />
     <Compile Include="Engine\Collision_BoundingCircle.cs" />
-    <Compile Include="Engine\Collision_BoundingEllipse.cs" />
     <Compile Include="Engine\Collision_OBB.cs" />
     <Compile Include="Engine\Game.cs" />
     <Compile Include="Engine\Level.cs" />

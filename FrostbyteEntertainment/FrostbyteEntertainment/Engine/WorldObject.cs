@@ -6,11 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace Frostbyte
 {
-    abstract public class WorldObject : IComparable<WorldObject>
+    abstract internal class WorldObject : IComparable<WorldObject>
     {
-        
-
-        public WorldObject(int z = 0)
+        internal WorldObject(int z = 0)
         {
             ZOrder = z;
             mVisible = true;
@@ -23,24 +21,16 @@ namespace Frostbyte
         /// Draws the obejct
         /// </summary>
         /// <param name="gameTime">The gametime for the drawing frame.</param>
-        public abstract void Draw(Microsoft.Xna.Framework.GameTime gameTime);
+        internal abstract void Draw(Microsoft.Xna.Framework.GameTime gameTime);
 
         /// <summary>
         /// 
         /// </summary>
-        public void DoCollisions()
+        internal void DoCollisions()
         {
-            if (mCollidesWithBackground)
-            {
-                CollideWithBackground();
-            }
             CollisionBehavior();
         }
 
-        protected virtual void CollideWithBackground()
-        {
-            throw new NotImplementedException();
-        }
         #endregion Methods
 
         internal Behavior CollisionBehavior = () => { };
@@ -49,13 +39,13 @@ namespace Frostbyte
         /// <summary>
         ///     gets the sprite's name
         /// </summary>
-        public string Name { get { return mName; } }
+        internal string Name { get { return mName; } }
 
         /// <summary>
         /// Sets the Sprite's transparency.
         /// </summary>
         /// <param name="f">The sprite's transparancy [0,1] other values will be force set </param>
-        public float Transparency
+        internal float Transparency
         {
             get { return mTransparency; }
             set { mTransparency = value > 1 ? 1 : value < 0 ? 0 : value; }
@@ -64,7 +54,7 @@ namespace Frostbyte
         /// Angle in degrees.
         /// </summary>
         /// <returns>Angle in degrees</returns>
-        public float Angle
+        internal float Angle
         {
             get { return mAngle; }
             set
@@ -79,22 +69,29 @@ namespace Frostbyte
         /// <summary>
         /// The current (x,y) position
         /// </summary>
-        public Vector2 Pos = new Vector2(0, 0);
+        internal Vector2 Pos = new Vector2(0, 0);
 
         /// <summary>
         /// Stacking order. Determines what draws on top.
         /// </summary>
-        public int ZOrder;
+        internal int ZOrder;
 
         /// <summary>
         /// Sprite's scale for drawing
         /// </summary>
-        public Vector2 Scale = new Vector2(1, 1);
+        internal Vector2 Scale = new Vector2(1, 1);
 
         /// <summary>
         /// Determines whether or not the WorldObject is transformed by the camera or not
         /// </summary>
-        public bool Static { get; set; }
+        internal bool Static { get; set; }
+
+        /// <summary>
+        /// The centerpoint of the sprite
+        /// </summary>
+        internal Vector2 Center { get; set; }
+
+
 
         #endregion Properties
 
@@ -107,7 +104,7 @@ namespace Frostbyte
         /// <summary>
         /// Determine if Object should be visible
         /// </summary>
-        public bool mVisible;
+        internal bool mVisible;
         /// <summary>
         /// Transparency!
         /// </summary>
@@ -118,8 +115,6 @@ namespace Frostbyte
         /// </summary>
         protected float mAngle;
 
-        private bool mCollidesWithBackground = true;
-
         /// <summary>
         /// \todo get rid of this
         /// this is to make it work
@@ -127,7 +122,17 @@ namespace Frostbyte
         internal CollisionObject Col { get; set; }
         #endregion Variables
 
+        /// <summary>
+        /// Obtains collision data
+        /// </summary>
+        /// <returns>this object's collision data</returns>
         internal abstract List<CollisionObject> GetCollision();
+
+        /// <summary>
+        /// Obtains collision data
+        /// </summary>
+        /// <returns>this object's collision data</returns>
+        internal abstract List<Vector2> GetHotSpots();
 
         /// <summary>
         /// Allows sorting
@@ -144,6 +149,6 @@ namespace Frostbyte
         /// Background's collision defaults to list 0
         /// All other objects default to 1
         /// </summary>
-        public int CollisionList = 1;
+        internal int CollisionList = 1;
     }
 }

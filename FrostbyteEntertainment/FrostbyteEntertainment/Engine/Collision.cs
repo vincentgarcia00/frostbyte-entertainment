@@ -9,27 +9,27 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Frostbyte
 {
-    public static class Collision
+    internal static class Collision
     {
         /// <summary>
         /// The Buckets of dictionaries for collision detection
         /// </summary>
-        public static List<Dictionary<Vector2, List<WorldObject>>> Buckets = new List<Dictionary<Vector2, List<WorldObject>>>();
+        internal static List<Dictionary<Vector2, List<WorldObject>>> Buckets = new List<Dictionary<Vector2, List<WorldObject>>>();
 
         /// <summary>
         /// List of the Collision data to check
         /// </summary>
-        public static List<KeyValuePair<int, int>> Lists = new List<KeyValuePair<int, int>>();
+        internal static List<KeyValuePair<int, int>> Lists = new List<KeyValuePair<int, int>>();
 
-        public static int gridCellHeight { get; set; }
-        public static int gridCellWidth { get; set; }
+        internal static int gridCellHeight { get; set; }
+        internal static int gridCellWidth { get; set; }
 
         //Tuple value defs: 1=Key's Collision Object;  2=WorldObject that collided with Key;  3=Value 2's Key that Collided
-        public static Dictionary<WorldObject, List<Tuple<CollisionObject, WorldObject, CollisionObject>>> collisionData;
-        public static bool ShowCollisionData { get; set; }
-        public static BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
+        internal static Dictionary<WorldObject, List<Tuple<CollisionObject, WorldObject, CollisionObject>>> collisionData;
+        internal static bool ShowCollisionData { get; set; }
+        internal static BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
 
-        public static void fillBuckets()
+        internal static void fillBuckets()
         {
             /// \todo This needs to dissapear. Should only ever happen once
             var BG = This.Game.CurrentLevel.Background;
@@ -57,7 +57,7 @@ namespace Frostbyte
             }
         }
 
-        public static void detectCollisions()
+        internal static void detectCollisions()
         {
             if (This.Game.CurrentLevel.mSprites.Count > 0)
             {
@@ -192,7 +192,7 @@ namespace Frostbyte
             #endregion
         }
 
-        public static void Draw(Matrix transformation)
+        internal static void Draw(Matrix transformation)
         {
             if (ShowCollisionData)
             {
@@ -220,19 +220,19 @@ namespace Frostbyte
             }
         }
 
-        public static void update()
+        internal static void update()
         {
             fillBuckets();
             detectCollisions();
         }
 
-        public static float distanceSquared(Vector2 p1, Vector2 p2)
+        internal static float distanceSquared(Vector2 p1, Vector2 p2)
         {
             Vector2 d = p1 - p2;
             return d.X * d.X + d.Y * d.Y;
         }
 
-        public static List<Tuple<CollisionObject, CollisionObject>> detectCollision(WorldObject w1, WorldObject w2)
+        internal static List<Tuple<CollisionObject, CollisionObject>> detectCollision(WorldObject w1, WorldObject w2)
         {
             List<Tuple<CollisionObject, CollisionObject>> output = new List<Tuple<CollisionObject, CollisionObject>>();
 
@@ -259,10 +259,11 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="c2">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_BoundingCircle o)
+        internal static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_BoundingCircle o)
         {
             float ds = Collision.distanceSquared(w1.Pos + c1.centerPointOffset, w2.Pos + o.centerPointOffset);
-            return (ds <= c1.radius * o.radius);
+            float r = c1.radius + o.radius;
+            return (ds <= r*r);
         }
 
         /// <summary>
@@ -272,7 +273,7 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_OBB c1, WorldObject w2, Collision_OBB o)
+        internal static bool detectCollision(WorldObject w1, Collision_OBB c1, WorldObject w2, Collision_OBB o)
         {
             return false;
         }
@@ -284,7 +285,7 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">AABB which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_AABB a1, WorldObject w2, Collision_AABB o)
+        internal static bool detectCollision(WorldObject w1, Collision_AABB a1, WorldObject w2, Collision_AABB o)
         {
             Vector2 TL1 = a1.topLeftPointOffset + w1.Pos;
             Vector2 BR1 = a1.bottomRightPointOffset + w1.Pos;
@@ -305,7 +306,7 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="a1">AABB which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_AABB o)
+        internal static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_AABB o)
         {
             return detectCollision(w2, o, w1, c1);
         }
@@ -316,7 +317,7 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_AABB a1, WorldObject w2, Collision_BoundingCircle o)
+        internal static bool detectCollision(WorldObject w1, Collision_AABB a1, WorldObject w2, Collision_BoundingCircle o)
         {
             Vector2 centerPoint = o.centerPointOffset + w2.Pos;
             Vector2 topLeftPoint = a1.topLeftPointOffset + w1.Pos;
@@ -377,7 +378,7 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o1">OBB which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_OBB o)
+        internal static bool detectCollision(WorldObject w1, Collision_BoundingCircle c1, WorldObject w2, Collision_OBB o)
         {
             return detectCollision(w2, o, w1, c1);
         }
@@ -388,7 +389,7 @@ namespace Frostbyte
         /// <param name="w2">Other collision data's world object</param>
         /// <param name="o">Collision circle which to check</param>
         /// <returns>Whether a collision occurred</returns>
-        public static bool detectCollision(WorldObject w1, Collision_OBB o1, WorldObject w2, Collision_BoundingCircle o)
+        internal static bool detectCollision(WorldObject w1, Collision_OBB o1, WorldObject w2, Collision_BoundingCircle o)
         {
             Vector2 c1Center = o.centerPointOffset + w2.Pos;
             Vector2 o1Anchor = new Vector2(w1.Pos.X, w1.Pos.Y);

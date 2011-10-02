@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Frostbyte
 {
     class Background_Collision : WorldObject
     {
-        public Background_Collision(CollisionObject col)
+        internal Background_Collision(CollisionObject col)
         {
             Col = col;
             CollisionList = 0;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        internal override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             throw new NotImplementedException();
         }
@@ -21,6 +22,11 @@ namespace Frostbyte
         internal override List<CollisionObject> GetCollision()
         {
             return new List<CollisionObject>() { Col };
+        }
+
+        internal override List<Vector2> GetHotSpots()
+        {
+            return new List<Vector2>();
         }
     }
 }

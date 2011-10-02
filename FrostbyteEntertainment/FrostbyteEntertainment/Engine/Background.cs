@@ -34,7 +34,7 @@ namespace Frostbyte
         /// <summary>
         /// The animation frames
         /// </summary>
-        public List<SpriteFrame> Frames = new List<SpriteFrame>();
+        internal List<SpriteFrame> Frames = new List<SpriteFrame>();
 
         /// <summary>
         /// current frame of anim
@@ -42,12 +42,12 @@ namespace Frostbyte
         protected int Frame = 0;
         #endregion Variables
 
-        public Background(string name, string animfile)
+        internal Background(string name, string animfile)
             : this(name, animfile, 0)
         {
         }
 
-        public Background(string name, string animfile, int layer)
+        internal Background(string name, string animfile, int layer)
         {
             CollisionList = 0;
 
@@ -66,12 +66,12 @@ namespace Frostbyte
         /// <summary>
         /// changes to the specified animation beginning at 0
         /// </summary>
-        public SpriteFrame GetAnimation()
+        internal SpriteFrame GetAnimation()
         {
             return Frames[Frame];
         }
 
-        public override void Draw(GameTime gameTime)
+        internal override void Draw(GameTime gameTime)
         {
             //Frame so we don't have to find it so often
             SpriteFrame frame = GetAnimation();
@@ -102,6 +102,11 @@ namespace Frostbyte
         internal override List<CollisionObject> GetCollision()
         {
             return CollisionData;
+        }
+
+        internal override List<Vector2> GetHotSpots()
+        {
+            return new List<Vector2>();
         }
 
         internal List<Background_Collision> objects = new List<Background_Collision>();

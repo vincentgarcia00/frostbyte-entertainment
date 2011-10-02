@@ -7,34 +7,34 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Frostbyte
 {
-    public abstract class CollisionObject
+    internal abstract class CollisionObject
     {
         /// <summary>
         /// Id that will be used to determine which CollisionObject was touched.
         /// </summary>
-        public int id { get; set; }
+        internal int id { get; set; }
 
         /// <summary>
         /// The type of CollisionObject (ex: c = circle, a = AABB, o = OBB, e = Ellipse)
         /// </summary>
-        public char type { get; set; }
+        internal char type { get; set; }
 
         /// <summary>
         /// Previous bucket locations
         /// </summary>
-        public List<Vector2> bucketLocations = new List<Vector2>();
+        internal List<Vector2> bucketLocations = new List<Vector2>();
 
-        public Vector2 previousPos = new Vector2();
+        internal Vector2 previousPos = new Vector2();
 
         /// <summary>
         /// Determines which grid cells the object is in
         /// </summary>
-        public abstract List<Vector2> gridLocations(WorldObject worldObject);
+        internal abstract List<Vector2> gridLocations(WorldObject worldObject);
 
         /// <summary>
         /// Add this CollisionObject to bucket.
         /// </summary>
-        public abstract void addToBucket(WorldObject worldObject);
+        internal abstract void addToBucket(WorldObject worldObject);
 
         /// <summary>
         /// Adds The world object to all cell contained within the four points
@@ -44,7 +44,7 @@ namespace Frostbyte
         /// <param name="bottomLeftY">Bottom left ycoord point of the rect</param>
         /// <param name="topRightX">Top Right xcoord point of the rect</param>
         /// <param name="topRightY">Top Right ycoord point of the rect</param>
-        public void AddToBucket(WorldObject worldObject, int bottomLeftX, int bottomLeftY, int topRightX, int topRightY)
+        internal void AddToBucket(WorldObject worldObject, int bottomLeftX, int bottomLeftY, int topRightX, int topRightY)
         {
             for (int i = bottomLeftX; i <= topRightX; i++) //cols
             {
@@ -70,9 +70,9 @@ namespace Frostbyte
         /// <summary>
         /// Holds the points that make up the linestrip for drawing
         /// </summary>
-        public VertexPositionColor[] drawPoints;
+        internal VertexPositionColor[] drawPoints;
 
-        public abstract void draw(WorldObject world, Matrix transformation);
+        internal abstract void draw(WorldObject world, Matrix transformation);
 
         public override int GetHashCode()
         {
