@@ -156,7 +156,7 @@ namespace Frostbyte
         #region Methods
 
         #region Draw
-        internal void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        internal virtual void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             This.Game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.GetTransformation(This.Game.GraphicsDevice));
 

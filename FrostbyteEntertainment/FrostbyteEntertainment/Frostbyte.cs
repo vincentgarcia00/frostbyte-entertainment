@@ -26,32 +26,11 @@ namespace Frostbyte
     class FrostbyteLevel : Level
     {
         internal Vector2 PlayerSpawnPoint = new Vector2(50, 50);
-        internal int waveNumber;
-
-        /// <summary>
-        /// A count of the enemies defeated in this level
-        /// </summary>
-        internal int EnemiesDefeated { get; set; }
 
         internal FrostbyteLevel(string n, Behavior loadBehavior, Behavior updateBehavior, Behavior endBehavior, Condition winCondition)
             : base(n, loadBehavior, updateBehavior, endBehavior, winCondition)
         {
         }
-
-        /// <summary>
-        /// A list of levels in the order they should be played through
-        /// </summary>
-        internal static List<string> LevelProgression = new List<string>()
-        {
-            "Stomach",
-            "Lungs",
-            "Credits"
-        };
-
-        /// <summary>
-        /// Retains progress through our levels
-        /// </summary>
-        internal static int CurrentStage = 0;
 
         internal override void Update()
         {
@@ -93,10 +72,13 @@ namespace Frostbyte
             
         }
 
-        internal static int NextLevel()
+        internal override void Draw(GameTime gameTime)
         {
-            CurrentStage = (CurrentStage + 1) % LevelProgression.Count;
-            return CurrentStage;
+            /// \todo draw base tiles
+
+            base.Draw(gameTime);
+
+            /// \todo draw bottom tiles
         }
     }
 }
