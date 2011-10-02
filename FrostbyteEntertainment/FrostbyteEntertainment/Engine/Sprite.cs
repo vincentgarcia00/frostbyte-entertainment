@@ -31,6 +31,12 @@ namespace Frostbyte
             }
         }
 
+        internal Sprite(string name, Actor actor, int collisionlist)
+            :this(name,actor)
+        {
+            CollisionList = collisionlist;
+        }
+
         #region Properties
         /// <summary>
         ///     changes to the specified frame of the animation beginning at 0

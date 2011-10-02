@@ -14,6 +14,7 @@ namespace Frostbyte
             mVisible = true;
             mTransparency = 1;
             mAngle = 0;
+            Static = false;
         }
 
         #region Methods
@@ -87,12 +88,9 @@ namespace Frostbyte
         internal bool Static { get; set; }
 
         /// <summary>
-        /// The centerpoint of the sprite
+        /// The centerpoint of the sprite relative to Pos
         /// </summary>
-        internal Vector2 Center { get; set; }
-
-
-
+        internal Vector2 Center = new Vector2();
         #endregion Properties
 
         #region Variables

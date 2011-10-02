@@ -131,9 +131,9 @@
     <Compile Include="Engine\WorldObject.cs" />
     <Compile Include="LevelFunctions.cs" />
     <Compile Include="LoadResources.cs" />
+    <Compile Include="SpriteClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="SpriteClasses.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>
