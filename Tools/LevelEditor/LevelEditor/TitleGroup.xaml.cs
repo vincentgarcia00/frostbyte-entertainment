@@ -31,7 +31,14 @@ namespace LevelEditor
         {
             this.InitializeComponent();
             // TODO: Complete member initialization
+            Tiles.SelectionChanged += new SelectionChangedEventHandler(Tiles_SelectionChanged);
+
             Tiles.ItemsSource = tiles;
+        }
+
+        void Tiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            This.mainWindow.SelectedTile = Tiles.SelectedValue as Tile;
         }
     }
 }

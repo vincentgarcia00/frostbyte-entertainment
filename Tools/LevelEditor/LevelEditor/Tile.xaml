@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LevelEditor" x:Class="LevelEditor.Tile" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+			 >
 	<UserControl.Resources>
+		<local:TileConverter x:Key="TileConverter"/>
 		<local:TransformConverter x:Key="TransformConverter"/>
 	</UserControl.Resources>
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -14,9 +15,9 @@
         	<RowDefinition Height="Auto"/>
         	<RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Name, FallbackValue=Name}" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <Border BorderThickness="3" CornerRadius="3" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
-        	<Image Source="{Binding Image, FallbackValue=wall.png}" RenderTransform="{Binding Orientation, Converter={StaticResource TransformConverter}}" RenderTransformOrigin="0.5,0.5"/>
+        	<Image x:Name="TileImage" Source="{Binding Type, ConverterParameter=Orientation, Converter={StaticResource TileConverter}, FallbackValue=error.png}" RenderTransform="{Binding Orientation, Converter={StaticResource TransformConverter}}" RenderTransformOrigin="0.5,0.5" ToolTip="{Binding Name, FallbackValue=Name}"/>
         </Border>
+		
     </Grid>
 </UserControl>

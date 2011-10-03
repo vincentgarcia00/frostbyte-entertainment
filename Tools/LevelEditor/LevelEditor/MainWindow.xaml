@@ -11,12 +11,90 @@
 	>
 
     <Grid x:Name="LayoutRoot">
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="Auto"/>
+    		<RowDefinition Height="1*"/>
+    	</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto" MinWidth="100"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="Grid" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
-        <ListBox x:Name="Objects" Grid.Column="1" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding TileGroups, ElementName=window}"/>
-        <local:TileGroup HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="20"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="0.2*"/>
+			</Grid.ColumnDefinitions>
+			<TextBlock Text="Grid Dimensions:" HorizontalAlignment="Left"/>
+			<TextBox x:Name="GridSize" Text="{Binding Grid_Size, Mode=TwoWay}" HorizontalAlignment="Left" Grid.Column="1"/>
+			<Border x:Name="SaveMap" BorderBrush="Black" BorderThickness="1" CornerRadius="1" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Grid.Column="3">
+        		<Border.Background>
+        			<RadialGradientBrush RadiusY="1.25" RadiusX="0.75">
+        				<GradientStop Color="#FF25F214"/>
+        				<GradientStop Color="#FF1BB60E" Offset="1"/>
+        			</RadialGradientBrush>
+        		</Border.Background>
+        		<TextBlock Text="Save map"/>
+        	</Border>
+		</Grid>
+		<ScrollViewer Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
+			<Grid x:Name="Level" ShowGridLines="True" Grid.IsSharedSizeScope="True" Background="#FF000139" Height="475.04" Width="652" >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+			</Grid>
+		</ScrollViewer>
+        <ListBox x:Name="Objects" Grid.Column="1" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding TileGroups, ElementName=window}" Grid.RowSpan="2"/>
     </Grid>
 </Window>
