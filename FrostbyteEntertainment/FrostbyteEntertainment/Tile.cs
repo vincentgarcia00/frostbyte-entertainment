@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Xml.Linq;
 
 namespace Frostbyte
 {
 
-    internal class Tile
+    internal class Tile : TileHelper<Tile>
     {
         internal static readonly int TileSize = 200;
 
@@ -27,8 +28,16 @@ namespace Frostbyte
         {
             Traversable = true;
         }
-
         
+        public XElement ToXML()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tile Parse(XElement elem)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// \file Tile.cs This is Shared with the Level Editor
