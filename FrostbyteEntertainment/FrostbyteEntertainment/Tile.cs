@@ -31,7 +31,7 @@ namespace Frostbyte
         
     }
 
-    /// \file This is Shared with the Level Editor
+    /// \file Tile.cs This is Shared with the Level Editor
 
 
     /// <summary>
@@ -101,6 +101,11 @@ namespace Frostbyte
             {
                 mDict[i] = value;
             }
+        }
+
+        public Dictionary<int, Dictionary<int, T>> CopyValue()
+        {
+            return new Dictionary<int, Dictionary<int, T>>(mDict);
         }
     }
 }

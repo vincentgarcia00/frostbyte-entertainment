@@ -23,8 +23,8 @@
     Possible types of tilesets:
     Wall
       Type=wall or bottom
-      CellStart=cell where we begin the wall
-      CellEnd=cell end(must be horizontal or vertical)
+      StartCell=cell where we begin the wall
+      EndCell=cell end(must be horizontal or vertical)
       Collison can be:
                 0 - no walk
                 1 - walk
@@ -39,6 +39,21 @@
                 0 - no walk
                 1 - walk
     
+    Walls - makes top side and bottom walls
+      TLPos = top left
+      BRPos = bottom right
+      Walls assumed non-walkable
+      
+    Room 
+      FloorType 
+                0 - Themed floor
+                1 - Water
+                2 - Lava
+      TLPos = top left
+      BRPos = bottom right
+      Floor assumed walkable 
+      Walls assumed non-walkable
+    
     Tile information 
     Type can be:
                 0 - wall  (for tops and sides)
@@ -52,10 +67,10 @@
                 1 - walk
     
     -->
-    <Wall Type="0" Collision="0" CellStart="0,0" CellEnd="10,0"/>
-    <Wall Type="0" Collision="0" CellStart="0,0" CellEnd="0,10"/>
-    <Wall Type="0" Collision="0" CellStart="10,0" CellEnd="10,10"/>
-    <Wall Type="0" Collision="0" CellStart="0,10" CellEnd="10,10"/>
+    <Wall Type="0" Collision="0" StartCell="0,0" EndCell="10,0"/>
+    <Wall Type="0" Collision="0" StartCell="0,0" EndCell="0,10"/>
+    <Wall Type="0" Collision="0" StartCell="10,0" EndCell="10,10"/>
+    <Wall Type="0" Collision="0" StartCell="0,10" EndCell="10,10"/>
     <Floor Type="0" Collision="1" TLPos="1,1" BRPos="10,10"/>
   </Tiles>
   <Objects>

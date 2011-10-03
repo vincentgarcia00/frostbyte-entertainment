@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;LEVELEDITOR;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -32,7 +32,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;LEVELEDITOR;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -62,6 +62,9 @@
     </Compile>
     <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\Tile.cs">
       <Link>Tile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileHelper.cs">
+      <Link>TileHelper.cs</Link>
     </Compile>
     <Compile Include="storage.cs" />
     <Compile Include="Tile.xaml.cs">
