@@ -10,7 +10,7 @@ namespace Frostbyte
 
     internal class Tile : TileHelper<Tile>
     {
-        internal static readonly int TileSize = 200;
+        internal static readonly int TileSize = 64;
 
         internal bool Traversable { get; set; }
 
@@ -27,6 +27,7 @@ namespace Frostbyte
         internal Tile()
         {
             Traversable = true;
+			FloorType = FloorTypes.DEFAULT;
         }
         
         public XElement ToXML()
@@ -47,33 +48,32 @@ namespace Frostbyte
     /// Wraper class for our dictionary that allows us to most efficiently obtain data from the dictionary
     /// Shared with The Level Editor
     /// </summary>
-    public class TileDictionary<T>
+    public class TileList<T>
     {
         /// <summary>
         /// Dict of the form [y,x]=Tile
         /// </summary>
-        Dictionary<int, Dictionary<int, T>> mDict = new Dictionary<int,Dictionary<int,T>>();
+        List< List<T> > mTiles = new List< List<T> >();
 
         Vector2? cache_key = null;
         T cache_value;
 
-        internal TileDictionary()
+        internal TileList()
         {
 
         }
 
         internal void Add(int x, int y, T t)
         {
-            Dictionary<int, T> elem;
-            if (mDict.TryGetValue(y, out elem))
-            {
-                elem[x] = t;
-            }
-            else
-            {
-                elem = new Dictionary<int, T>();
-                elem[x] = t;
-            }
+            while(mTiles.Count < y){
+				mTiles.Add(new List<T>());
+			}
+			foreach(var row in mTiles)
+			while(row.Count < x){
+				row.Add( null /*new default(T)*/);
+			}
+			
+			mTiles[y][x] = t;
         }
 
         internal bool TryGetValue(int x, int y, out T value)
@@ -83,38 +83,39 @@ namespace Frostbyte
                 value = cache_value;
                 return true;
             }
-            if (mDict.ContainsKey(x) && mDict[x].ContainsKey(y))
+            
+			if (mTiles[y][x] != null)
             {
-                value = mDict[x][y];
+                value = mTiles[y][x];
                 cache_key = new Vector2(x, y);
                 cache_value = value;
                 return true;
             }
 
-            value = default(T);
+            value = null;//default(T);
             return false;
         }
 
         internal void Clear()
         {
-            mDict.Clear();
+            mTiles.Clear();
         }
 
-        public Dictionary<int, T> this[int i]
+        public List<int, T> this[int i]
         {
             get
             {
-                return mDict[i];
+                return mTiles[i];
             }
             set
             {
-                mDict[i] = value;
+                mTiles[i] = value;
             }
         }
 
-        public Dictionary<int, Dictionary<int, T>> CopyValue()
+        public List<int, List<int, T> > CopyValue()
         {
-            return new Dictionary<int, Dictionary<int, T>>(mDict);
+            return new List<int, List<int, T> >(mTiles);
         }
     }
 }
