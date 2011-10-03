@@ -10,7 +10,7 @@ namespace Frostbyte
 
     internal class Tile : TileHelper<Tile>
     {
-        internal static readonly int TileSize = 200;
+        internal static readonly int TileSize = 64;
 
         internal bool Traversable { get; set; }
 
@@ -27,6 +27,7 @@ namespace Frostbyte
         internal Tile()
         {
             Traversable = true;
+			FloorType = FloorTypes.DEFAULT;
         }
         
         public XElement ToXML()
@@ -43,78 +44,5 @@ namespace Frostbyte
     /// \file Tile.cs This is Shared with the Level Editor
 
 
-    /// <summary>
-    /// Wraper class for our dictionary that allows us to most efficiently obtain data from the dictionary
-    /// Shared with The Level Editor
-    /// </summary>
-    public class TileDictionary<T>
-    {
-        /// <summary>
-        /// Dict of the form [y,x]=Tile
-        /// </summary>
-        Dictionary<int, Dictionary<int, T>> mDict = new Dictionary<int,Dictionary<int,T>>();
 
-        Vector2? cache_key = null;
-        T cache_value;
-
-        internal TileDictionary()
-        {
-
-        }
-
-        internal void Add(int x, int y, T t)
-        {
-            Dictionary<int, T> elem;
-            if (mDict.TryGetValue(y, out elem))
-            {
-                elem[x] = t;
-            }
-            else
-            {
-                elem = new Dictionary<int, T>();
-                elem[x] = t;
-            }
-        }
-
-        internal bool TryGetValue(int x, int y, out T value)
-        {
-            if (cache_key.HasValue && cache_key.Value.X == x && cache_key.Value.Y == y)
-            {
-                value = cache_value;
-                return true;
-            }
-            if (mDict.ContainsKey(x) && mDict[x].ContainsKey(y))
-            {
-                value = mDict[x][y];
-                cache_key = new Vector2(x, y);
-                cache_value = value;
-                return true;
-            }
-
-            value = default(T);
-            return false;
-        }
-
-        internal void Clear()
-        {
-            mDict.Clear();
-        }
-
-        public Dictionary<int, T> this[int i]
-        {
-            get
-            {
-                return mDict[i];
-            }
-            set
-            {
-                mDict[i] = value;
-            }
-        }
-
-        public Dictionary<int, Dictionary<int, T>> CopyValue()
-        {
-            return new Dictionary<int, Dictionary<int, T>>(mDict);
-        }
-    }
 }

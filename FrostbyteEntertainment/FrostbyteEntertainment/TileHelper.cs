@@ -18,6 +18,11 @@ namespace Frostbyte
         T Parse(XElement elem);
     }
 
+	public interface LevelLoader<T>
+	{
+		 LoadFile()
+	}
+
     public class Index2D
     {
         public Index2D(int x, int y)
@@ -40,7 +45,11 @@ namespace Frostbyte
             int x = int.Parse(ss[0]);
             int y = int.Parse(ss[1]);
             return new Index2D(x, y);
-        }        
+        }
+		public override ToString()
+		{
+			return String.Fromat("{0},{1}",X,Y);
+		}
     }
 
     public class Wall : TileHelper<Wall>
