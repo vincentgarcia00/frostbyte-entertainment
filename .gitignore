@@ -17,6 +17,7 @@
 *.tlh
 *.bak
 *.[Cc]ache
+*.cachefile
 *.ilk
 *.log
 *.lib

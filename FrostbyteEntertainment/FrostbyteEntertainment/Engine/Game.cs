@@ -217,7 +217,7 @@ namespace Frostbyte
             //enable cheats
             if (mLastKeyState.IsKeyDown(Keys.F9) && keyState.IsKeyUp(Keys.F9))
             {
-                This.Cheats = !This.Cheats;
+                This.Cheats.SpawnEnemies.Toggle();
             }
             //enable cheats
             if (mLastKeyState.IsKeyDown(Keys.F1) && keyState.IsKeyUp(Keys.F1))

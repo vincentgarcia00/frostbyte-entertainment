@@ -77,11 +77,8 @@ namespace Frostbyte
         /// <param name="numEnemies">Number of enemies</param>
         internal static void Spawn(EnemyFactory constructEnemy, int numEnemies)
         {
-#if NOCHEATS
-#else
-            if (!This.Cheats)
+            if (!This.Cheats.SpawnEnemies.Enabled)
             {
-#endif
                 FrostbyteLevel l = (This.Game.CurrentLevel != This.Game.NextLevel && This.Game.NextLevel != null ? This.Game.NextLevel : This.Game.CurrentLevel) as FrostbyteLevel;
                 for (int i = 0; i < numEnemies; i++)
                 {
@@ -90,10 +87,7 @@ namespace Frostbyte
                         new Vector2(rand.Next(-500, This.Game.GraphicsDevice.Viewport.Width+500),
                             rand.Next(-500, This.Game.GraphicsDevice.Viewport.Height+500));
                 }
-#if NOCHEATS
-#else
             }
-#endif
         }
 
         /// <summary>
@@ -105,11 +99,8 @@ namespace Frostbyte
         /// <param name="position"></param>
         internal static void Spawn(EnemyFactory constructEnemy, int numEnemies, Vector2 position)
         {
-#if NOCHEATS
-#else
-            if (!This.Cheats)
+            if (!This.Cheats.SpawnEnemies.Enabled)
             {
-#endif
                 double radius = 160f;
                 double angleInc = (1.5 * Math.PI) / numEnemies;
                 double startAngle = Math.PI * 2 * rand.NextDouble();
@@ -119,10 +110,7 @@ namespace Frostbyte
                     virus.Pos = position + new Vector2((float)(Math.Cos(angleInc * i + startAngle) * radius * rand.NextDouble()),
                         (float)(Math.Sin(angleInc * i + startAngle) * radius * rand.NextDouble()));
                 }
-#if NOCHEATS
-#else
             }
-#endif
         }
     }
 }

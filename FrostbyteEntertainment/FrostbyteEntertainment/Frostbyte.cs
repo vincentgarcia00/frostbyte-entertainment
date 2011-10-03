@@ -20,6 +20,9 @@ namespace Frostbyte
         internal static int livesAwarded = 0;
     }
 
+    /// <summary>
+    /// Enables sorting Sprite lists by distance from an origin Sprite
+    /// </summary>
     internal class DistanceSort : IComparer<Sprite>
     {
         Sprite origin;
@@ -31,13 +34,19 @@ namespace Frostbyte
 
         int IComparer<Sprite>.Compare(Sprite x, Sprite y)
         {
-            if ((x.Pos - origin.Pos).LengthSquared() < (y.Pos - origin.Pos).LengthSquared())
+            double lx = (x.Pos - origin.Pos).LengthSquared();
+            double ly = (y.Pos - origin.Pos).LengthSquared();
+            if (lx > ly)
             {
                 return 1;
             }
-            else
+            else if (lx < ly)
             {
                 return -1;
+            }
+            else
+            {
+                return 0;
             }
         }
     }
