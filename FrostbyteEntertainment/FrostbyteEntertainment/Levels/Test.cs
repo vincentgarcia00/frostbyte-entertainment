@@ -2,9 +2,82 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Frostbyte.Levels
 {
+    internal class Target : Obstacle
+    {
+        internal Target(string name, Actor actor)
+            : base(name, actor)
+        {
+
+        }
+
+        BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
+
+        internal override void Draw(GameTime gameTime)
+        {
+            if (mVisible)
+            {
+                float height = This.Game.GraphicsDevice.Viewport.Height;
+                float width = This.Game.GraphicsDevice.Viewport.Width;
+                basicEffect.View = Matrix.CreateLookAt(new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, -10),
+                                                       new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, 0), new Vector3(0, -1, 0));
+                basicEffect.Projection = Matrix.CreateOrthographic(This.Game.GraphicsDevice.Viewport.Width, This.Game.GraphicsDevice.Viewport.Height, 1, 20);
+                basicEffect.VertexColorEnabled = true;
+                basicEffect.World = Matrix.CreateTranslation(new Vector3(Pos, 0)) * This.Game.CurrentLevel.Camera.GetTransformation(This.Game.GraphicsDevice);
+                int size = 15;
+                VertexPositionColor[] points = new VertexPositionColor[5]{
+                new VertexPositionColor(new Vector3(Pos.X, Pos.Y, 0), Color.Red),
+                new VertexPositionColor(new Vector3(Pos.X + size, Pos.Y, 0), Color.Red),
+                new VertexPositionColor(new Vector3(Pos.X + size, Pos.Y + size, 0), Color.Red),
+                new VertexPositionColor(new Vector3(Pos.X, Pos.Y + size, 0), Color.Red),
+                new VertexPositionColor(new Vector3(Pos.X, Pos.Y, 0), Color.Red)};
+                foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    This.Game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, points, 0, points.Length - 1);
+                }
+            }
+        }
+    }
+
+    internal class FerociousEnemy : Enemy
+    {
+        internal FerociousEnemy(string name, Actor actor)
+            : base(name, actor)
+        {
+            float height = This.Game.GraphicsDevice.Viewport.Height;
+            float width = This.Game.GraphicsDevice.Viewport.Width;
+            basicEffect.View = Matrix.CreateLookAt(new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, -10),
+                                                   new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, 0), new Vector3(0, -1, 0));
+            basicEffect.Projection = Matrix.CreateOrthographic(This.Game.GraphicsDevice.Viewport.Width, This.Game.GraphicsDevice.Viewport.Height, 1, 20);
+            basicEffect.VertexColorEnabled = true;
+        }
+
+        BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
+        VertexPositionColor[] points;
+
+        internal override void Draw(GameTime gameTime)
+        {
+            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+            {
+                int size = 10;
+                points = new VertexPositionColor[5]{
+                new VertexPositionColor(new Vector3(Pos.X, Pos.Y, 0), Color.BlueViolet),
+                new VertexPositionColor(new Vector3(Pos.X + size, Pos.Y, 0), Color.BlueViolet),
+                new VertexPositionColor(new Vector3(Pos.X + size, Pos.Y + size, 0), Color.BlueViolet),
+                new VertexPositionColor(new Vector3(Pos.X, Pos.Y + size, 0), Color.BlueViolet),
+                new VertexPositionColor(new Vector3(Pos.X, Pos.Y, 0), Color.BlueViolet)};
+                pass.Apply();
+                basicEffect.World = Matrix.CreateTranslation(new Vector3(Pos, 0)) * This.Game.CurrentLevel.Camera.GetTransformation(This.Game.GraphicsDevice);
+                This.Game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, points, 0, points.Length - 1);
+            }
+        }
+    }
+
     internal static class Test
     {
         internal static void Load()
@@ -21,6 +94,7 @@ namespace Frostbyte.Levels
             mage.Pos = new Microsoft.Xna.Framework.Vector2(50, 50);
             l.Camera.Pos = mage.Pos - new Microsoft.Xna.Framework.Vector2(This.Game.GraphicsDevice.Viewport.Width / 2,
                 This.Game.GraphicsDevice.Viewport.Height / 2);
+
         }
 
         internal static void Update()

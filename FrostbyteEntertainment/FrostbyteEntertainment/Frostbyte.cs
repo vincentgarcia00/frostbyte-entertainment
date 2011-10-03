@@ -20,6 +20,28 @@ namespace Frostbyte
         internal static int livesAwarded = 0;
     }
 
+    internal class DistanceSort : IComparer<Sprite>
+    {
+        Sprite origin;
+
+        internal DistanceSort(Sprite origin)
+        {
+            this.origin = origin;
+        }
+
+        int IComparer<Sprite>.Compare(Sprite x, Sprite y)
+        {
+            if ((x.Pos - origin.Pos).LengthSquared() < (y.Pos - origin.Pos).LengthSquared())
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+
     /// <summary>
     /// Add Game-specific level code here to avoid cluttering up the Engine
     /// </summary>

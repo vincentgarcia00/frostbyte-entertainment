@@ -29,7 +29,7 @@ namespace Frostbyte.Characters
         {
             controller = new Controller(input);
             currentTargetAlignment = TargetAlignment.None;
-            target = new Target("target", new Actor(new DummyAnimation("target")));
+            target = new Frostbyte.Levels.Target("target", new Actor(new DummyAnimation("target")));
             target.mVisible = false;
 
             UpdateBehavior = Update;
@@ -41,6 +41,7 @@ namespace Frostbyte.Characters
         private TargetAlignment currentTargetAlignment;
         private Controller controller;
         private Sprite target;
+        BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
         #endregion
 
         #region Methods
@@ -88,7 +89,11 @@ namespace Frostbyte.Characters
                         currentTarget = null;
                     }
                     
-                    currentTarget = findMinimum((This.Game.CurrentLevel as FrostbyteLevel).enemies);
+                    //currentTarget = findMinimum((This.Game.CurrentLevel as FrostbyteLevel).enemies);
+                    (This.Game.CurrentLevel as FrostbyteLevel).enemies.Sort(new DistanceSort(this));
+                    int next = (This.Game.CurrentLevel as FrostbyteLevel).enemies.IndexOf(currentTarget);
+                    currentTarget = (This.Game.CurrentLevel as FrostbyteLevel).enemies[next + 1 % (This.Game.CurrentLevel as FrostbyteLevel).enemies.Count];
+
                     if (currentTarget != null)
                     {
                         currentTargetAlignment = TargetAlignment.Enemy;
@@ -127,7 +132,6 @@ namespace Frostbyte.Characters
 
             float height = This.Game.GraphicsDevice.Viewport.Height;
             float width = This.Game.GraphicsDevice.Viewport.Width;
-            BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
             basicEffect.View = Matrix.CreateLookAt(new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, -10),
                                                    new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, 0), new Vector3(0, -1, 0));
             basicEffect.Projection = Matrix.CreateOrthographic(This.Game.GraphicsDevice.Viewport.Width, This.Game.GraphicsDevice.Viewport.Height, 1, 20);
