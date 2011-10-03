@@ -63,7 +63,10 @@
     <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\Tile.cs">
       <Link>Tile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileHelper.cs">
+    <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileList.cs">
+      <Link>TileList.cs</Link>
+    </Compile>
+	<Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileHelper.cs">
       <Link>TileHelper.cs</Link>
     </Compile>
     <Compile Include="storage.cs" />
