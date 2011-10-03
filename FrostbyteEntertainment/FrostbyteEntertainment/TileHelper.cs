@@ -12,10 +12,10 @@ namespace Frostbyte
     /// Base Class for Tileable objects
     /// </summary>
     /// <typeparam name="T">Will be The corresponding tile for Game/Editor</typeparam>
-    public abstract class TileHelper<T>
+    public interface TileHelper<T>
     {
-        public abstract XElement ToXML();
-        public abstract T Parse(XElement elem);
+        XElement ToXML();
+        T Parse(XElement elem);
     }
 
     public class Index2D
@@ -64,7 +64,7 @@ namespace Frostbyte
             Traversable = move;
         }
 
-        public override XElement ToXML()
+        public XElement ToXML()
         {
             XElement e = new XElement("Wall");
             e.SetAttributeValue("Type", Type);
@@ -75,13 +75,125 @@ namespace Frostbyte
             return e;
         }
 
-        public override Wall Parse(XElement elem)
+        public Wall Parse(XElement elem)
         {
 #if DEBUG
             try
             {
 #endif
                 return new Wall(
+                    Index2D.Parse(elem.Attribute("StartCell").Value),
+                    Index2D.Parse(elem.Attribute("EndCell").Value),
+                    (TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
+                    (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value),
+                    bool.Parse(elem.Attribute("Collision").Value)
+                    );
+#if DEBUG
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.GetBaseException().Message);
+                return null;
+            }
+        }
+#endif
+    }
+
+    public class Floor : TileHelper<Floor>
+    {
+        public TileTypes Type { get; set; }
+
+        public Element Theme { get; set; }
+
+        public Index2D StartCell { get; set; }
+
+        public Index2D EndCell { get; set; }
+
+        public bool Traversable { get; set; }
+
+        public Floor(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
+        {
+            StartCell = start;
+            EndCell = end;
+            Type = t;
+            Theme = theme;
+            Traversable = move;
+        }
+
+        public XElement ToXML()
+        {
+            XElement e = new XElement("Floor");
+            e.SetAttributeValue("Type", Type);
+            e.SetAttributeValue("StartCell", StartCell);
+            e.SetAttributeValue("EndCell", EndCell);
+            e.SetAttributeValue("Collision", Traversable);
+            e.SetAttributeValue("Theme", Theme);
+            return e;
+        }
+
+        public  Floor Parse(XElement elem)
+        {
+#if DEBUG
+            try
+            {
+#endif
+                return new Floor(
+                    Index2D.Parse(elem.Attribute("StartCell").Value),
+                    Index2D.Parse(elem.Attribute("EndCell").Value),
+                    (TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
+                    (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value),
+                    bool.Parse(elem.Attribute("Collision").Value)
+                    );
+#if DEBUG
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.GetBaseException().Message);
+                return null;
+            }
+        }
+#endif
+    }
+
+    public class Walls : TileHelper<Walls>
+    {
+        public TileTypes Type { get; set; }
+
+        public Element Theme { get; set; }
+
+        public Index2D StartCell { get; set; }
+
+        public Index2D EndCell { get; set; }
+
+        public bool Traversable { get; set; }
+
+        public Walls(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
+        {
+            StartCell = start;
+            EndCell = end;
+            Type = t;
+            Theme = theme;
+            Traversable = move;
+        }
+
+        public XElement ToXML()
+        {
+            XElement e = new XElement("Walls");
+            e.SetAttributeValue("Type", Type);
+            e.SetAttributeValue("StartCell", StartCell);
+            e.SetAttributeValue("EndCell", EndCell);
+            e.SetAttributeValue("Collision", Traversable);
+            e.SetAttributeValue("Theme", Theme);
+            return e;
+        }
+
+        public Walls Parse(XElement elem)
+        {
+#if DEBUG
+            try
+            {
+#endif
+                return new Walls(
                     Index2D.Parse(elem.Attribute("StartCell").Value),
                     Index2D.Parse(elem.Attribute("EndCell").Value),
                     (TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),

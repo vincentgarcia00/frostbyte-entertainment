@@ -33,15 +33,15 @@
                 0 - Themed floor
                 1 - Water
                 2 - Lava
-      TLPos = top left
-      BRPos = bottom right
+      StartCell = top left
+      EndCell = bottom right
       Collison can be:
                 0 - no walk
                 1 - walk
     
     Walls - makes top side and bottom walls
-      TLPos = top left
-      BRPos = bottom right
+      EndCell = top left
+      EndCell = bottom right
       Walls assumed non-walkable
       
     Room 

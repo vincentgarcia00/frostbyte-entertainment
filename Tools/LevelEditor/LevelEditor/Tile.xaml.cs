@@ -12,13 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Frostbyte;
+using System.Xml.Linq;
 
 namespace LevelEditor
 {
     /// <summary>
     /// Interaction logic for Tile.xaml
     /// </summary>
-    public partial class Tile : UserControl
+    public partial class Tile : UserControl, TileHelper<Tile>
     {
         public TileTypes Type { get; set; }
 
@@ -73,6 +74,16 @@ namespace LevelEditor
         public override string ToString()
         {
             return string.Format("Name:{0}\nType:{1}\nCollides:{2}\nTheme:{3}\nOrientation:{4}", Name, Type, Traversable, Theme, Orientation);
+        }
+
+        public XElement ToXML()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tile Parse(XElement elem)
+        {
+            throw new NotImplementedException();
         }
     }
 }
