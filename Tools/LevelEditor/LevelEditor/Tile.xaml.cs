@@ -24,7 +24,7 @@ namespace LevelEditor
 
         public string InstanceName { get; set; }
 
-        public bool CollisionEnabled { get; set; }
+        public bool Traversable { get; set; }
 
         public FloorTypes FloorType { get; set; }
 
@@ -47,7 +47,7 @@ namespace LevelEditor
             Tile other = (Tile)SelectedTile.MemberwiseClone();
             Type = other.Type;
             InstanceName = "InsertName";
-            CollisionEnabled = other.CollisionEnabled;
+            Traversable = other.Traversable;
             FloorType = other.FloorType;
             Theme = other.Theme;
             Orientation = other.Orientation;
@@ -72,7 +72,7 @@ namespace LevelEditor
 
         public override string ToString()
         {
-            return string.Format("Name:{0}\nType:{1}\nCollides:{2}\nTheme:{3}\nOrientation:{4}", Name, Type, CollisionEnabled, Theme, Orientation);
+            return string.Format("Name:{0}\nType:{1}\nCollides:{2}\nTheme:{3}\nOrientation:{4}", Name, Type, Traversable, Theme, Orientation);
         }
     }
 }

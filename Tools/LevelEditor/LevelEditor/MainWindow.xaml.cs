@@ -43,7 +43,7 @@ namespace LevelEditor
 
         public Tile SelectedTile { get; set; }
 
-        public static Dictionary<int, Dictionary<int, Tile>> TileMap = new Dictionary<int, Dictionary<int, Tile>>();
+        public static Frostbyte.TileDictionary<Tile> TileMap = new TileDictionary<Tile>();
 
         public MainWindow()
         {
@@ -54,56 +54,56 @@ namespace LevelEditor
             ObservableCollection<Tile> tiles = new ObservableCollection<Tile>(){
                 new Tile(){
                     Name="Floor",
-                    CollisionEnabled=false,
+                    Traversable=false,
                     Type=TileTypes.Floor,
                     FloorType = FloorTypes.Themed,
                     Orientation= Orientations.Down
                 },
                 new Tile(){
                     Name="Wall_Top",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Wall,
                     Orientation = Orientations.Down
                 },
 
                 new Tile(){
                     Name="Wall_Left",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Wall,
                     Orientation = Orientations.Right
                 },
 
                 new Tile(){
                     Name="Wall_Right",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Wall,
                     Orientation = Orientations.Left
                 },
 
                 new Tile(){
                     Name="Wall_Bottom",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Bottom,
 
                 },
 
                 new Tile(){
                     Name="Corner_TL",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Corner,
                     Orientation=Orientations.Down
                 },
 
                 new Tile(){
                     Name="Corner_TR",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Corner,
                     Orientation=Orientations.Left
                 },
 
                 new Tile(){
                     Name="Corner_BR",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Corner,
                     Orientation=Orientations.Up
                 }
@@ -111,7 +111,7 @@ namespace LevelEditor
 
                 new Tile(){
                     Name="Corner_BL",
-                    CollisionEnabled=true,
+                    Traversable=true,
                     Type=TileTypes.Corner,
                     Orientation = Orientations.Right
                 }

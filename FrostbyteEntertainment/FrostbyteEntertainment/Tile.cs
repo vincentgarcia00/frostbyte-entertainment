@@ -6,41 +6,68 @@ using Microsoft.Xna.Framework;
 
 namespace Frostbyte
 {
+
     internal class Tile
     {
         internal static readonly int TileSize = 200;
 
         internal bool Traversable { get; set; }
 
+        internal TileTypes Type { get; set; }
+
+        internal string InstanceName { get; set; }
+
+        internal FloorTypes FloorType { get; set; }
+
+        internal Element Theme { get; set; }
+
+        internal Orientations Orientation { get; set; }
+
         internal Tile()
         {
             Traversable = true;
         }
+
+        
     }
 
-    internal class TileDictionary
+    /// \file This is Shared with the Level Editor
+
+
+    /// <summary>
+    /// Wraper class for our dictionary that allows us to most efficiently obtain data from the dictionary
+    /// Shared with The Level Editor
+    /// </summary>
+    public class TileDictionary<T>
     {
-        Dictionary<int, Dictionary<int, Tile>> mDict = new Dictionary<int,Dictionary<int,Tile>>();
+        /// <summary>
+        /// Dict of the form [y,x]=Tile
+        /// </summary>
+        Dictionary<int, Dictionary<int, T>> mDict = new Dictionary<int,Dictionary<int,T>>();
 
         Vector2? cache_key = null;
-        Tile cache_value;
+        T cache_value;
 
         internal TileDictionary()
         {
 
         }
 
-        internal void Add(int x, int y, Tile t)
+        internal void Add(int x, int y, T t)
         {
-            if (!mDict.ContainsKey(x))
+            Dictionary<int, T> elem;
+            if (mDict.TryGetValue(y, out elem))
             {
-                mDict.Add(x, new Dictionary<int, Tile>());
+                elem[x] = t;
             }
-
-            mDict[x].Add(y, t);
+            else
+            {
+                elem = new Dictionary<int, T>();
+                elem[x] = t;
+            }
         }
 
-        internal bool TryGetValue(int x, int y, out Tile value)
+        internal bool TryGetValue(int x, int y, out T value)
         {
             if (cache_key.HasValue && cache_key.Value.X == x && cache_key.Value.Y == y)
             {
@@ -55,8 +82,25 @@ namespace Frostbyte
                 return true;
             }
 
-            value = new Tile();
+            value = default(T);
             return false;
+        }
+
+        internal void Clear()
+        {
+            mDict.Clear();
+        }
+
+        public Dictionary<int, T> this[int i]
+        {
+            get
+            {
+                return mDict[i];
+            }
+            set
+            {
+                mDict[i] = value;
+            }
         }
     }
 }

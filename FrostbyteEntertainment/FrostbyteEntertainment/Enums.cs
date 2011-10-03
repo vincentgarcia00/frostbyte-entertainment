@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+/// \file This is Shared with the Level Editor
 namespace Frostbyte
 {
     public enum Orientations

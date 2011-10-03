@@ -37,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,6 +59,9 @@
     </ApplicationDefinition>
     <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\Enums.cs">
       <Link>Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\Tile.cs">
+      <Link>Tile.cs</Link>
     </Compile>
     <Compile Include="storage.cs" />
     <Compile Include="Tile.xaml.cs">
