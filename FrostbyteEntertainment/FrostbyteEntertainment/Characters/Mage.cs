@@ -29,8 +29,9 @@ namespace Frostbyte.Characters
         {
             controller = new Controller(input);
             currentTargetAlignment = TargetAlignment.None;
-            target = new Target("target", new Actor(new DummyAnimation("target")));
+            target = new Frostbyte.Levels.Target("target", new Actor(new DummyAnimation("target")));
             target.mVisible = false;
+            sortType = new DistanceSort(this);
 
             UpdateBehavior = Update;
         }
@@ -41,6 +42,8 @@ namespace Frostbyte.Characters
         private TargetAlignment currentTargetAlignment;
         private Controller controller;
         private Sprite target;
+        BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
+        private IComparer<Sprite> sortType;
         #endregion
 
         #region Methods
@@ -51,28 +54,13 @@ namespace Frostbyte.Characters
         /// <returns></returns>
         private Sprite findMinimum(List<Sprite> list)
         {
-            Sprite nextMin = null;
-            foreach (Sprite s in list)
+            if (list.Contains(this))
             {
-                if (s != this && (currentTarget == null || s != currentTarget))
-                {
-                    Vector2 targetPos = currentTarget == null ? Pos : currentTarget.Pos;
-                    if (nextMin == null ||
-                        ((s.Pos - Pos).LengthSquared() >= (targetPos - Pos).LengthSquared() &&
-                        (s.Pos - Pos).LengthSquared() < (nextMin.Pos - Pos).LengthSquared()))
-                    {
-                        nextMin = s;
-                    }
-                }
+                list.Remove(this);
             }
-            if (nextMin != null)
-            {
-                return nextMin;
-            }
-            else
-            {
-                return currentTarget;
-            }
+            list.Sort(sortType);
+            int next = list.IndexOf(currentTarget);
+            return list[(next + 1) % list.Count];
         }
 
         public void Update()
@@ -87,8 +75,9 @@ namespace Frostbyte.Characters
                     {
                         currentTarget = null;
                     }
-                    
+
                     currentTarget = findMinimum((This.Game.CurrentLevel as FrostbyteLevel).enemies);
+
                     if (currentTarget != null)
                     {
                         currentTargetAlignment = TargetAlignment.Enemy;
@@ -96,27 +85,30 @@ namespace Frostbyte.Characters
                 }
                 else if (controller.TargetAllies)
                 {
-                    if (currentTargetAlignment != TargetAlignment.None)
+                    if (currentTargetAlignment != TargetAlignment.Ally)
                     {
                         currentTarget = null;
                     }
 
-                    currentTarget = findMinimum((This.Game.CurrentLevel as FrostbyteLevel).allies);
+                    currentTarget = findMinimum((This.Game.CurrentLevel as FrostbyteLevel).allies.Concat(
+                        (This.Game.CurrentLevel as FrostbyteLevel).obstacles).ToList());
                     if (currentTarget != null)
                     {
                         currentTargetAlignment = TargetAlignment.Ally;
                     }
                 }
-                else if (controller.CancelTargeting == ReleasableButtonState.Clicked)
+
+                if (controller.CancelTargeting == ReleasableButtonState.Clicked)
                 {
                     target.mVisible = false;
                     currentTarget = null;
+                    currentTargetAlignment = TargetAlignment.None;
                 }
 
                 if (currentTarget != null)
                 {
                     target.mVisible = true;
-                    target.Pos = currentTarget.Pos + GetAnimation().AnimationPeg - target.GetAnimation().AnimationPeg;
+                    target.CenterOn(currentTarget);
                 }
                 #endregion
             }
@@ -127,7 +119,6 @@ namespace Frostbyte.Characters
 
             float height = This.Game.GraphicsDevice.Viewport.Height;
             float width = This.Game.GraphicsDevice.Viewport.Width;
-            BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
             basicEffect.View = Matrix.CreateLookAt(new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, -10),
                                                    new Vector3(This.Game.GraphicsDevice.Viewport.X + width / 2, This.Game.GraphicsDevice.Viewport.Y + height / 2, 0), new Vector3(0, -1, 0));
             basicEffect.Projection = Matrix.CreateOrthographic(This.Game.GraphicsDevice.Viewport.Width, This.Game.GraphicsDevice.Viewport.Height, 1, 20);

@@ -21,6 +21,37 @@ namespace Frostbyte
     }
 
     /// <summary>
+    /// Enables sorting Sprite lists by distance from an origin Sprite
+    /// </summary>
+    internal class DistanceSort : IComparer<Sprite>
+    {
+        Sprite origin;
+
+        internal DistanceSort(Sprite origin)
+        {
+            this.origin = origin;
+        }
+
+        int IComparer<Sprite>.Compare(Sprite x, Sprite y)
+        {
+            double lx = (x.Pos - origin.Pos).LengthSquared();
+            double ly = (y.Pos - origin.Pos).LengthSquared();
+            if (lx > ly)
+            {
+                return 1;
+            }
+            else if (lx < ly)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+
+    /// <summary>
     /// Add Game-specific level code here to avoid cluttering up the Engine
     /// </summary>
     class FrostbyteLevel : Level
