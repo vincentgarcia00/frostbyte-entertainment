@@ -37,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -66,7 +65,7 @@
     <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileList.cs">
       <Link>TileList.cs</Link>
     </Compile>
-	<Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileHelper.cs">
+    <Compile Include="..\..\..\FrostbyteEntertainment\FrostbyteEntertainment\TileHelper.cs">
       <Link>TileHelper.cs</Link>
     </Compile>
     <Compile Include="storage.cs" />

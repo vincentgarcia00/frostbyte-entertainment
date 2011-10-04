@@ -15,15 +15,10 @@ namespace Frostbyte
     public interface TileHelper<T>
     {
         XElement ToXML();
-        T Parse(XElement elem);
+        //void SetParse(XElement elem);/// \todo make sure all things implementing the interface have one of these but static
     }
 
-    public interface LevelLoader<T>
-    {
-        void LoadFile();
-    }
-
-    public class Index2D
+    public partial class Index2D
     {
         public Index2D(int x, int y)
         {
@@ -85,7 +80,7 @@ namespace Frostbyte
             return e;
         }
 
-        public Wall Parse(XElement elem)
+        public static Wall Parse(XElement elem)
         {
 #if DEBUG
             try
@@ -141,7 +136,7 @@ namespace Frostbyte
             return e;
         }
 
-        public Floor Parse(XElement elem)
+        public static Floor Parse(XElement elem)
         {
 #if DEBUG
             try
@@ -197,7 +192,7 @@ namespace Frostbyte
             return e;
         }
 
-        public Walls Parse(XElement elem)
+        public static Walls Parse(XElement elem)
         {
 #if DEBUG
             try

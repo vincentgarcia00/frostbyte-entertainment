@@ -58,7 +58,7 @@ namespace LevelEditor
         public static Tile DeepCopy(Tile SelectedTile)
         {
             Tile other = new Tile(SelectedTile);
-            
+
             //    {
             //        Name=SelectedTile.Name.ToString(),
             //        CollisionEnabled=SelectedTile.CollisionEnabled?true:false,
@@ -78,12 +78,63 @@ namespace LevelEditor
 
         public XElement ToXML()
         {
-            throw new NotImplementedException();
+            XElement e = new XElement("Tile");
+            e.SetAttributeValue("Type", Type);
+            e.SetAttributeValue("InstanceName", InstanceName);
+            e.SetAttributeValue("Collision", Traversable);
+            e.SetAttributeValue("Theme", Theme);
+            e.SetAttributeValue("Orientation", Orientation);
+            Point GridCell = new Point(Grid.GetColumn(this), Grid.GetRow(this));
+            e.SetAttributeValue("GridCell", GridCell);
+            return e;
         }
 
         public Tile Parse(XElement elem)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            try
+            {
+#endif
+                Tile t = new Tile();
+                foreach (XAttribute attr in elem.Attributes())
+                {
+                    if (attr.Name == "Type")
+                    {
+                        t.Type = (TileTypes)Enum.Parse(typeof(TileTypes), attr.Value);
+                    }
+                    else if (attr.Name == "InstanceName")
+                    {
+                        t.InstanceName = attr.Value;
+                    }
+                    else if (attr.Name == "Collision")
+                    {
+                        t.Traversable = bool.Parse(attr.Value);
+                    }
+                    else if (attr.Name == "Theme")
+                    {
+                        t.Theme = (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value);
+                    }
+                    else if (attr.Name == "Orientation")
+                    {
+                        t.Orientation = (Orientations)Enum.Parse(typeof(Orientations), elem.Attribute("Theme").Value);
+                    }
+                    else if (attr.Name == "GridCell")
+                    {
+                        Index2D i = Index2D.Parse(attr.Value);
+                        Grid.SetColumn(this, i.X);
+                        Grid.SetRow(this, i.Y);
+                    }
+                }
+                return t;
+#if DEBUG
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.GetBaseException().Message);
+                return null;
+            }
         }
+#endif
     }
 }
+

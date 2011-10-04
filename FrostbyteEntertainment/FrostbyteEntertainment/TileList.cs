@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 using System.Xml.Linq;
 
 namespace Frostbyte
@@ -18,7 +17,7 @@ namespace Frostbyte
         /// </summary>
         List< List<T> > mTiles = new List< List<T> >();
 
-        Vector2? cache_key = null;
+        Index2D cache_key = new Index2D(-1,-1);
         T cache_value;
 
         internal TileList()
@@ -41,7 +40,7 @@ namespace Frostbyte
 
         internal bool TryGetValue(int x, int y, out T value)
         {
-            if (cache_key.HasValue && cache_key.Value.X == x && cache_key.Value.Y == y)
+            if (cache_key.X == x && cache_key.Y == y)
             {
                 value = cache_value;
                 return true;
@@ -50,7 +49,7 @@ namespace Frostbyte
 			if (mTiles[y][x] != null)
             {
                 value = mTiles[y][x];
-                cache_key = new Vector2(x, y);
+                cache_key = new Index2D(x, y);
                 cache_value = value;
                 return true;
             }

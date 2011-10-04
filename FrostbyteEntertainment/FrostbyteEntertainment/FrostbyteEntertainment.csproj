@@ -138,6 +138,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileHelper.cs" />
+    <Compile Include="TileList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
