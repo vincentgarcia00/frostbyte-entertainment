@@ -22,6 +22,8 @@ namespace LevelEditor
     {
         public ObservableCollection<TileGroup> TileGroups { get; set; }
 
+        public LevelObject SelectedObject { get; set; }
+
         public Vector Grid_Size
         {
             get
@@ -54,73 +56,133 @@ namespace LevelEditor
             ObservableCollection<Tile> tiles = new ObservableCollection<Tile>(){
                 new Tile(){
                     Name="Floor",
-                    Traversable=false,
+                    Traversable=true,
                     Type=TileTypes.Floor,
                     FloorType = FloorTypes.Themed,
-                    Orientation= Orientations.Down
+                    Orientation= Orientations.Down,
+                    Active=true
                 },
                 new Tile(){
                     Name="Wall_Top",
                     Traversable=true,
                     Type=TileTypes.Wall,
-                    Orientation = Orientations.Down
+                    Orientation = Orientations.Down,
+                    Active=true
                 },
 
                 new Tile(){
                     Name="Wall_Left",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Wall,
-                    Orientation = Orientations.Right
+                    Orientation = Orientations.Right,
+                    Active=true
                 },
 
                 new Tile(){
                     Name="Wall_Right",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Wall,
-                    Orientation = Orientations.Left
+                    Orientation = Orientations.Left,
+                    Active=true
                 },
 
                 new Tile(){
                     Name="Wall_Bottom",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Bottom,
-
+                    Active=true
                 },
 
                 new Tile(){
                     Name="Corner_TL",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation=Orientations.Down
+                    Orientation=Orientations.Down,
+                    Active=true
                 },
 
                 new Tile(){
                     Name="Corner_TR",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation=Orientations.Left
+                    Orientation=Orientations.Left,
+                    Active=true
                 },
 
                 new Tile(){
                     Name="Corner_BR",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation=Orientations.Up
+                    Orientation=Orientations.Up,
+                    Active=true
                 }
                 ,
 
                 new Tile(){
                     Name="Corner_BL",
-                    Traversable=true,
+                    Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation = Orientations.Right
+                    Orientation = Orientations.Right,
+                    Active=true
+                }
+            };
+            ObservableCollection<Tile> rooms = new ObservableCollection<Tile>()
+            {
+                new Tile()
+                {
+                    Name="Room",
+                    Traversable=false,
+                    Type = TileTypes.Room,
+                    Orientation = Orientations.Down,
+                    FloorType = FloorTypes.Themed,
+                    IsSpecialObject=true,
+                    Active=true
+                },
+                new Tile()
+                {
+                    Name="Walls",
+                    Traversable=false,
+                    Type = TileTypes.Wall,
+                    Orientation = Orientations.Down,
+                    FloorType = FloorTypes.Themed,
+                    IsSpecialObject=true,
+                    Active=true
+                },
+                new Tile()
+                {
+                    Name="Wall",
+                    Traversable=false,
+                    Type = TileTypes.Wall,
+                    Orientation = Orientations.Down,
+                    FloorType = FloorTypes.Themed,
+                    IsSpecialObject=true,
+                    Active=true
+                },
+                new Tile()
+                {
+                    Name="Floor",
+                    Traversable=false,
+                    Type = TileTypes.Floor,
+                    Orientation = Orientations.Down,
+                    FloorType = FloorTypes.Themed,
+                    IsSpecialObject=true,
+                    Active=true
                 }
             };
             var stuff = new ObservableCollection<TileGroup>(){
                 new TileGroup(tiles){
                     GroupName="Tiles"
+                },
+                new TileGroup(rooms){
+                    GroupName="Rooms"
                 }
             };
+
+            //clears selected items
+            foreach (var tg in stuff)
+            {
+                tg.Tiles.SelectedIndex = -1;
+            }
 
             Objects.ItemsSource = stuff;
 
@@ -188,7 +250,12 @@ namespace LevelEditor
             {
                 if (SelectedTile != null)
                 {
-                    AddTile(GetCell(e.GetPosition(Level)));
+                    if (!SelectedTile.IsSpecialObject)
+                        AddTile(GetCell(e.GetPosition(Level)));
+                    else
+                    {
+                        // fill all of it
+                    }
                 }
             }
             if (ClearTile && e.MouseDevice.RightButton == MouseButtonState.Pressed)
@@ -204,30 +271,75 @@ namespace LevelEditor
 
         void Level_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+            //do some handling here for end of room that skips the rest
+            if (SelectedTile != null && SelectedTile.IsSpecialObject)
             {
-                if (SelectedTile != null)
-                {
-                    GridCell = GetCell(e.GetPosition(Level));
-                    AddTile(GridCell);
-                }
             }
-            if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
+            else
             {
-                if (ClearTile)
+                if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
                 {
-                    GridCell = GetCell(e.GetPosition(Level));
-                    RemoveTile(GridCell);
-                    ClearTile = true;
+                    if (SelectedTile != null)
+                    {
+                        GridCell = GetCell(e.GetPosition(Level));
+                        FirstClick = true;
+                        if (!SelectedTile.IsSpecialObject)
+                            AddTile(GridCell);
+                        else
+                        {
+                            // fill all of it
+                            if (SelectedTile.Name == "Room")
+                            {
+                                SelectedObject = new Room(new Index2D((int)GridCell.X, (int)GridCell.Y))
+                                {
+                                    FloorType = SelectedTile.FloorType,
+                                };
+                            }
+                            else if (SelectedTile.Name == "Walls")
+                            {
+                                SelectedObject = new BorderWalls(new Index2D((int)GridCell.X, (int)GridCell.Y))
+                                {
+                                    FloorType = SelectedTile.FloorType,
+                                };
+                            }
+                            else if (SelectedTile.Name == "Wall")
+                            {
+                                SelectedObject = new Wall(new Index2D((int)GridCell.X, (int)GridCell.Y))
+                                {
+                                    FloorType = SelectedTile.FloorType,
+                                };
+                            }
+                            else if (SelectedTile.Name == "Floor")
+                            {
+                                SelectedObject = new Floor(new Index2D((int)GridCell.X, (int)GridCell.Y))
+                                {
+                                    FloorType = SelectedTile.FloorType,
+                                };
+                            }
+                        }
+                    }
                 }
-                CancelSelection = true;
+                if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
+                {
+                    if (ClearTile)
+                    {
+                        GridCell = GetCell(e.GetPosition(Level));
+                        RemoveTile(GridCell);
+                        ClearTile = true;
+                    }
+                    CancelSelection = true;
+                }
             }
         }
 
         private void AddTile(Vector newpt)
         {
-            if (newpt != GridCell)
+            if (newpt != GridCell || FirstClick)
             {
+                if(GridCell.X<0||GridCell.Y<0||GridCell.X>gridSize.X||GridCell.Y>gridSize.Y)
+                {
+                    GridCell = newpt;
+                }
                 //deterimine which coord changed more
                 Vector diff = newpt - GridCell;
 
@@ -236,7 +348,7 @@ namespace LevelEditor
                 Vector dir = Horiz ? new Vector(diff.X, 0) : new Vector(0, diff.Y);
                 dir.Normalize();
 
-                while ((Horiz ? GridCell.X != newpt.X : GridCell.Y != newpt.Y))
+                while (FirstClick||(Horiz ? GridCell.X != newpt.X : GridCell.Y != newpt.Y))
                 {
                     if (GridCell.X < 0 || GridCell.Y < 0)
                         GridCell = newpt;
@@ -259,7 +371,11 @@ namespace LevelEditor
 
                     if ((Horiz ? GridCell.X != newpt.X : GridCell.Y != newpt.Y))
                         GridCell += dir;
+                    FirstClick = false;
                 }
+
+                
+
                 //set the new last grid point
                 GridCell = newpt;
             }
@@ -293,6 +409,8 @@ namespace LevelEditor
         public bool ClearTile { get; set; }
 
         public bool CancelSelection { get; set; }
+
+        public bool FirstClick { get; set; }
     }
 
 
@@ -344,6 +462,10 @@ namespace LevelEditor
                         break;
                     case TileTypes.Water:
                         file = "water.png";
+                        break;
+                    case TileTypes.Room:
+                        //do some magic to show pic for the walls etc
+                        file = "room.png";
                         break;
                     default:
                         file = "error.png";

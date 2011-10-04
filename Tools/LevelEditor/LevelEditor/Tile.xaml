@@ -9,14 +9,16 @@
 	<UserControl.Resources>
 		<local:TileConverter x:Key="TileConverter"/>
 		<local:TransformConverter x:Key="TransformConverter"/>
-	</UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.RowDefinitions>
         	<RowDefinition Height="Auto"/>
         	<RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Name}" Visibility="{Binding InMenu, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <Border BorderThickness="3" CornerRadius="3" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
-        	<Image x:Name="TileImage" Source="{Binding Type, ConverterParameter=Orientation, Converter={StaticResource TileConverter}, FallbackValue=error.png}" RenderTransform="{Binding Orientation, Converter={StaticResource TransformConverter}}" RenderTransformOrigin="0.5,0.5" ToolTip="{Binding Name, FallbackValue=Name}"/>
+        	<Image x:Name="TileImage" Source="{Binding Type, Converter={StaticResource TileConverter}, FallbackValue=error.png}" RenderTransform="{Binding Orientation, Converter={StaticResource TransformConverter}}" RenderTransformOrigin="0.5,0.5" ToolTip="{Binding Name, FallbackValue=Name}"/>
         </Border>
 		
     </Grid>

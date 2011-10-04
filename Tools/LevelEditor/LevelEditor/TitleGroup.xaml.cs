@@ -25,6 +25,7 @@ namespace LevelEditor
         public TileGroup()
         {
             this.InitializeComponent();
+            Tiles.SelectionChanged+=new SelectionChangedEventHandler(Tiles_SelectionChanged);
         }
 
         public TileGroup(ObservableCollection<Tile> tiles)

@@ -50,7 +50,17 @@ namespace Frostbyte
 
     public class Wall : LevelObject
     {
-        public Index2D StartCell { get; set; }
+        public Index2D StartCell
+        {
+            get
+            {
+                return GridCell;
+            }
+            set
+            {
+                GridCell = value;
+            }
+        }
 
         public Index2D EndCell { get; set; }
 
@@ -61,6 +71,11 @@ namespace Frostbyte
             Type = t;
             Theme = theme;
             Traversable = move;
+        }
+
+        public Wall(Index2D start)
+        {
+            StartCell = start;
         }
 
         public override XElement ToXML()
@@ -100,17 +115,33 @@ namespace Frostbyte
 
     public class Floor : LevelObject
     {
-        public Index2D StartCell { get; set; }
+        public Index2D StartCell
+        {
+            get
+            {
+                return GridCell;
+            }
+            set
+            {
+                GridCell = value;
+            }
+        }
 
         public Index2D EndCell { get; set; }
 
-        public Floor(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
+        public Floor(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true, FloorTypes f = FloorTypes.Themed)
         {
             StartCell = start;
             EndCell = end;
             Type = t;
             Theme = theme;
             Traversable = move;
+            FloorType = f;
+        }
+
+        public Floor(Index2D start)
+        {
+            StartCell = start;
         }
 
         public override XElement ToXML()
@@ -150,7 +181,17 @@ namespace Frostbyte
 
     public class BorderWalls : LevelObject
     {
-        public Index2D StartCell { get; set; }
+        public Index2D StartCell
+        {
+            get
+            {
+                return GridCell;
+            }
+            set
+            {
+                GridCell = value;
+            }
+        }
 
         public Index2D EndCell { get; set; }
 
@@ -161,6 +202,11 @@ namespace Frostbyte
             Type = t;
             Theme = theme;
             Traversable = move;
+        }
+
+        public BorderWalls(Index2D start)
+        {
+            StartCell = start;
         }
 
         public override XElement ToXML()
@@ -200,17 +246,32 @@ namespace Frostbyte
 
     public class Room : LevelObject
     {
-        public Index2D StartCell { get; set; }
+        public Index2D StartCell
+        {
+            get
+            {
+                return GridCell;
+            }
+            set
+            {
+                GridCell = value;
+            }
+        }
 
         public Index2D EndCell { get; set; }
 
-        public Room(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
+        public Room(Index2D start, Index2D end, Element theme, FloorTypes f = FloorTypes.Themed, bool move = true)
         {
             StartCell = start;
             EndCell = end;
-            Type = t;
+            FloorType = f;
             Theme = theme;
             Traversable = move;
+        }
+
+        public Room(Index2D start)
+        {
+            StartCell = start;
         }
 
         public override XElement ToXML()
@@ -230,13 +291,31 @@ namespace Frostbyte
             try
             {
 #endif
-                return new Room(
-                    Index2D.Parse(elem.Attribute("StartCell").Value),
-                    Index2D.Parse(elem.Attribute("EndCell").Value),
-                    (TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
-                    (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value),
-                    bool.Parse(elem.Attribute("Collision").Value)
+                if (elem.Attribute("FloorType") != null && elem.Attribute("Collision") != null)
+                    return new Room(
+                        Index2D.Parse(elem.Attribute("StartCell").Value),
+                        Index2D.Parse(elem.Attribute("EndCell").Value),
+                        //(TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
+                        (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value),
+                        (FloorTypes)Enum.Parse(typeof(FloorTypes), elem.Attribute("FloorType").Value),
+                        bool.Parse(elem.Attribute("Collision").Value)
                     );
+                else if (elem.Attribute("FloorType") != null)
+                    return new Room(
+                        Index2D.Parse(elem.Attribute("StartCell").Value),
+                        Index2D.Parse(elem.Attribute("EndCell").Value),
+                        //(TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
+                        (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value),
+                        (FloorTypes)Enum.Parse(typeof(FloorTypes), elem.Attribute("FloorType").Value)
+                    );
+                else
+                    return new Room(
+                        Index2D.Parse(elem.Attribute("StartCell").Value),
+                        Index2D.Parse(elem.Attribute("EndCell").Value),
+                        //(TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
+                        (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value)
+                    );
+
 #if DEBUG
             }
             catch (Exception e)

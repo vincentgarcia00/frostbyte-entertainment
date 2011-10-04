@@ -107,6 +107,17 @@ namespace LevelEditor
             }
         }
 
+        public bool IsSpecialObject { get; set; }
+
+        public bool Active { get;set; }
+
+        public bool InMenu { get; set; }
+
+        /// <summary>
+        /// Stores if this tile is a part of a given container
+        /// </summary>
+        public LevelObject Container { get; set; }
+
         public Tile()
         {
             InitializeComponent();
@@ -114,19 +125,25 @@ namespace LevelEditor
             //Binding b = new Binding("Orientation");
             //b.Converter=new TransformConverter();
             //SetBinding(TileImage.RenderTransform,b.
+            InMenu = true;
         }
 
         public Tile(Tile SelectedTile)
         {
             InitializeComponent();
             Tile other = (Tile)SelectedTile.MemberwiseClone();
+            other.Active = true;
+            other.InMenu = false;
             Type = other.Type;
             InstanceName = "InsertName";
             Traversable = other.Traversable;
             FloorType = other.FloorType;
             Theme = other.Theme;
             Orientation = other.Orientation;
+            Active = other.Active;
+            InMenu = other.InMenu;
             DataContext = other;
+            
         }
 
         public static Tile DeepCopy(Tile SelectedTile)
