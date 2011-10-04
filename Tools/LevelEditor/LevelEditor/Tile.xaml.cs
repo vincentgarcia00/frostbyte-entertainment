@@ -21,7 +21,7 @@ namespace LevelEditor
     /// </summary>
     public partial class Tile : UserControl
     {
-        Frostbyte.Tile t;
+        Frostbyte.Tile t = new Frostbyte.Tile();
 
         public TileTypes Type
         {

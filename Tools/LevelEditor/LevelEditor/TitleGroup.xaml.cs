@@ -39,6 +39,7 @@ namespace LevelEditor
         void Tiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             This.mainWindow.SelectedTile = Tiles.SelectedValue as Tile;
+            This.mainWindow.ClearTile = false;
         }
     }
 }

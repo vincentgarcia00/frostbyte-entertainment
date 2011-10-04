@@ -50,15 +50,9 @@ namespace Frostbyte
 
     public class Wall : LevelObject
     {
-        public TileTypes Type { get; set; }
-
-        public Element Theme { get; set; }
-
         public Index2D StartCell { get; set; }
 
         public Index2D EndCell { get; set; }
-
-        public bool Traversable { get; set; }
 
         public Wall(Index2D start, Index2D end, TileTypes t, Element theme, bool move = false)
         {
@@ -106,15 +100,9 @@ namespace Frostbyte
 
     public class Floor : LevelObject
     {
-        public TileTypes Type { get; set; }
-
-        public Element Theme { get; set; }
-
         public Index2D StartCell { get; set; }
 
         public Index2D EndCell { get; set; }
-
-        public bool Traversable { get; set; }
 
         public Floor(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
         {
@@ -162,15 +150,9 @@ namespace Frostbyte
 
     public class BorderWalls : LevelObject
     {
-        public TileTypes Type { get; set; }
-
-        public Element Theme { get; set; }
-
         public Index2D StartCell { get; set; }
 
         public Index2D EndCell { get; set; }
-
-        public bool Traversable { get; set; }
 
         public BorderWalls(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
         {
@@ -218,15 +200,9 @@ namespace Frostbyte
 
     public class Room : LevelObject
     {
-        public TileTypes Type { get; set; }
-
-        public Element Theme { get; set; }
-
         public Index2D StartCell { get; set; }
 
         public Index2D EndCell { get; set; }
-
-        public bool Traversable { get; set; }
 
         public Room(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
         {
@@ -274,6 +250,20 @@ namespace Frostbyte
 
     public class LevelObject
     {
+        public TileTypes Type { get; set; }
+
+        public Element Theme { get; set; }
+
+        public bool Traversable { get; set; }
+
+        public Orientations Orientation { get; set; }
+
+        public FloorTypes FloorType { get; set; }
+
+        public Index2D GridCell { get; set; }
+
+        public string InstanceName { get; set; }
+
         public virtual XElement ToXML()
         {
             return new XElement("Level");

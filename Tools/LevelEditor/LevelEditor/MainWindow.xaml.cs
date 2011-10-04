@@ -138,25 +138,23 @@ namespace LevelEditor
 
         void SaveMap_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GenerateDictionary();
+            //obsolete
         }
         void SaveMap_MouseUp(object sender, MouseButtonEventArgs e)
         {
             //open save box and then create all the crap that needs to get saved
         }
 
-        private void GenerateDictionary()
+        void LoadGrid(TileList<Tile> t)
         {
-            TileMap.Clear();
-            foreach (Tile tile in Level.Children)
+            TileMap = t;
+            var l = t.Data;
+            var tiles = l.Item2;
+            foreach (var list in tiles)
             {
-                int y = Grid.GetRow(tile);
-                int x = Grid.GetColumn(tile);
-                TileMap[y][x] = tile;
+
             }
         }
-
-
 
         private void CreateGrid()
         {
@@ -176,10 +174,11 @@ namespace LevelEditor
 
         void Level_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (Clear && e.MouseDevice.RightButton == MouseButtonState.Released)
+            if (CancelSelection && e.MouseDevice.RightButton == MouseButtonState.Released)
             {
                 SelectedTile = null;
-                Clear = false;
+                ClearTile = true;
+                CancelSelection = false;
             }
         }
 
@@ -192,7 +191,7 @@ namespace LevelEditor
                     AddTile(GetCell(e.GetPosition(Level)));
                 }
             }
-            if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
+            if (ClearTile && e.MouseDevice.RightButton == MouseButtonState.Pressed)
             {
                 RemoveTile(GetCell(e.GetPosition(Level)));
             }
@@ -215,7 +214,13 @@ namespace LevelEditor
             }
             if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
             {
-                Clear = true;
+                if (ClearTile)
+                {
+                    GridCell = GetCell(e.GetPosition(Level));
+                    RemoveTile(GridCell);
+                    ClearTile = true;
+                }
+                CancelSelection = true;
             }
         }
 
@@ -241,10 +246,16 @@ namespace LevelEditor
                     Tile toadd = Tile.DeepCopy(SelectedTile);
 
                     //set the cell
-                    Grid.SetRow(toadd, (int)GridCell.Y);
-                    Grid.SetColumn(toadd, (int)GridCell.X);
+                    int y = (int)GridCell.Y;
+                    int x = (int)GridCell.X;
+                    Grid.SetRow(toadd, y);
+                    Grid.SetColumn(toadd, x);
 
                     Level.Children.Add(toadd);
+                    if (!TileMap.Add(toadd))
+                    {
+                        TileMap.Add(toadd, x, y);
+                    }
 
                     if ((Horiz ? GridCell.X != newpt.X : GridCell.Y != newpt.Y))
                         GridCell += dir;
@@ -257,8 +268,8 @@ namespace LevelEditor
         private void RemoveTile(Vector newpt)
         {
             //remove old element
-            List<UIElement> toRemove = new List<UIElement>();
-            foreach (UIElement item in Level.Children)
+            List<Tile> toRemove = new List<Tile>();
+            foreach (Tile item in Level.Children)
             {
                 int x = Grid.GetColumn(item);
                 int y = Grid.GetRow(item);
@@ -270,10 +281,18 @@ namespace LevelEditor
             foreach (var elem in toRemove)
             {
                 Level.Children.Remove(elem);
+                if (!TileMap.Remove(elem))
+                {
+                    int x = Grid.GetColumn(elem);
+                    int y = Grid.GetRow(elem);
+                    TileMap.Remove(elem, x, y);
+                }
             }
         }
 
-        public bool Clear { get; set; }
+        public bool ClearTile { get; set; }
+
+        public bool CancelSelection { get; set; }
     }
 
 

@@ -11,20 +11,6 @@ namespace Frostbyte
     {
         public static readonly int TileSize = 64;
 
-        public TileTypes Type { get; set; }
-
-        public bool Traversable { get; set; }
-
-        public string InstanceName { get; set; }
-
-        public FloorTypes FloorType { get; set; }
-
-        public Element Theme { get; set; }
-
-        public Orientations Orientation { get; set; }
-
-        public Index2D GridCell { get; set; }
-
         public Tile()
         {
             Traversable = true;
