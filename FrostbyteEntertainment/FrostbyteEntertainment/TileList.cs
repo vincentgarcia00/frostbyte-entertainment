@@ -33,7 +33,7 @@ namespace Frostbyte
 			}
 			foreach(var row in mTiles)
 			while(row.Count < x){
-				row.Add( null /*new default(T)*/);
+				row.Add(default(T));
 			}
 			
 			mTiles[y][x] = t;
@@ -55,7 +55,7 @@ namespace Frostbyte
                 return true;
             }
 
-            value = null;//default(T);
+            value = default(T);
             return false;
         }
 
@@ -64,7 +64,7 @@ namespace Frostbyte
             mTiles.Clear();
         }
 
-        public List<int, T> this[int i]
+        public List<T> this[int i]
         {
             get
             {
@@ -76,9 +76,9 @@ namespace Frostbyte
             }
         }
 
-        public List<int, List<int, T> > CopyValue()
+        public List<List<T>> CopyValue()
         {
-            return new List<int, List<int, T> >(mTiles);
+            return new List<List<T>>(mTiles);
         }
 		
 		public void Save(string filename, XDocument doc)
@@ -88,17 +88,14 @@ namespace Frostbyte
 
 		public XDocument Compress()
 		{
-			XDoucment doc = new XDocument();
-
-			//Go through and put all our element in
-			doc.Root = new XElement("Level");
+			XDocument doc = new XDocument(new XElement("Level"));
 
 			return doc;
 		}
 
 		public List< List<T> > Parse(string filename)
 		{
-			return Parse(new XDocument.Load(filename));
+			return Parse(XDocument.Load(filename));
 		}
 
 		public List< List<T> > Parse(XDocument doc)

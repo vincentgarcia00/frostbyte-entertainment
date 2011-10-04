@@ -43,7 +43,7 @@ namespace LevelEditor
 
         public Tile SelectedTile { get; set; }
 
-        public static Frostbyte.TileDictionary<Tile> TileMap = new TileDictionary<Tile>();
+        public static Frostbyte.TileList<Tile> TileMap = new TileList<Tile>();
 
         public MainWindow()
         {

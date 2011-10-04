@@ -27,9 +27,9 @@ namespace Frostbyte
         internal Tile()
         {
             Traversable = true;
-			FloorType = FloorTypes.DEFAULT;
+            FloorType = FloorTypes.DEFAULT;
         }
-        
+
         public XElement ToXML()
         {
             throw new NotImplementedException();
