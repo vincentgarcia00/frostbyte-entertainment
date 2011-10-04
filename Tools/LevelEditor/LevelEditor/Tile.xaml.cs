@@ -19,19 +19,93 @@ namespace LevelEditor
     /// <summary>
     /// Interaction logic for Tile.xaml
     /// </summary>
-    public partial class Tile : UserControl, TileHelper<Tile>
+    public partial class Tile : UserControl
     {
-        public TileTypes Type { get; set; }
+        Frostbyte.Tile t;
 
-        public string InstanceName { get; set; }
+        public TileTypes Type
+        {
+            get
+            {
+                return t.Type;
+            }
+            set
+            {
+                t.Type = value;
+            }
+        }
 
-        public bool Traversable { get; set; }
+        public string InstanceName
+        {
+            get
+            {
+                return t.InstanceName;
+            }
+            set
+            {
+                t.InstanceName = value;
+            }
+        }
 
-        public FloorTypes FloorType { get; set; }
+        public bool Traversable
+        {
+            get
+            {
+                return t.Traversable;
+            }
+            set
+            {
+                t.Traversable = value;
+            }
+        }
 
-        public Element Theme { get; set; }
+        public FloorTypes FloorType
+        {
+            get
+            {
+                return t.FloorType;
+            }
+            set
+            {
+                t.FloorType = value;
+            }
+        }
 
-        public Orientations Orientation { get; set; }
+        public Element Theme
+        {
+            get
+            {
+                return t.Theme;
+            }
+            set
+            {
+                t.Theme = value;
+            }
+        }
+
+        public Orientations Orientation
+        {
+            get
+            {
+                return t.Orientation;
+            }
+            set
+            {
+                t.Orientation = value;
+            }
+        }
+
+        public Frostbyte.Tile ValueTile
+        {
+            get
+            {
+                return t;
+            }
+            set
+            {
+                t = value;
+            }
+        }
 
         public Tile()
         {
@@ -58,16 +132,6 @@ namespace LevelEditor
         public static Tile DeepCopy(Tile SelectedTile)
         {
             Tile other = new Tile(SelectedTile);
-
-            //    {
-            //        Name=SelectedTile.Name.ToString(),
-            //        CollisionEnabled=SelectedTile.CollisionEnabled?true:false,
-            //        Type=(TileTypes)SelectedTile.Type.GetTypeCode(),
-            //        FloorType = (FloorTypes)SelectedTile.FloorType.GetTypeCode(),
-            //        Image = new BitmapImage(new Uri( "wall.png",UriKind.RelativeOrAbsolute)),
-            //        Orientation= (Orientations)SelectedTile.Orientation.GetTypeCode()
-            //    }
-            //;
             return other;
         }
 

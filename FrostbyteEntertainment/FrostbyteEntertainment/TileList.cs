@@ -17,6 +17,12 @@ namespace Frostbyte
         /// </summary>
         List< List<T> > mTiles = new List< List<T> >();
 
+        /// <summary>
+        /// All data that the level file contains in order from the file (for saving again)
+        /// </summary>
+        List<LevelObject> Rooms = new List<LevelObject>();
+
+
         Index2D cache_key = new Index2D(-1,-1);
         T cache_value;
 

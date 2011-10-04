@@ -7,25 +7,25 @@ using System.Xml.Linq;
 /// \file Tile.cs This is Shared with the Level Editor
 namespace Frostbyte
 {
-    internal class Tile : TileHelper<Tile>
+    public class Tile : LevelObject
     {
-        internal static readonly int TileSize = 64;
+        public static readonly int TileSize = 64;
 
-        internal TileTypes Type { get; set; }
+        public TileTypes Type { get; set; }
 
-        internal bool Traversable { get; set; }
+        public bool Traversable { get; set; }
 
-        internal string InstanceName { get; set; }
+        public string InstanceName { get; set; }
 
-        internal FloorTypes FloorType { get; set; }
+        public FloorTypes FloorType { get; set; }
 
-        internal Element Theme { get; set; }
+        public Element Theme { get; set; }
 
-        internal Orientations Orientation { get; set; }
+        public Orientations Orientation { get; set; }
 
-        internal Index2D GridCell { get; set; }
+        public Index2D GridCell { get; set; }
 
-        internal Tile()
+        public Tile()
         {
             Traversable = true;
             FloorType = FloorTypes.DEFAULT;
@@ -34,7 +34,7 @@ namespace Frostbyte
             Theme = Element.DEFAULT;
         }
 
-        public XElement ToXML()
+        public override XElement ToXML()
         {
             XElement e = new XElement("Tile");
             e.SetAttributeValue("Type", Type);

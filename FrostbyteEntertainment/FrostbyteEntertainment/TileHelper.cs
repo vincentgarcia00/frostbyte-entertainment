@@ -8,15 +8,15 @@ using System.Xml.Linq;
 
 namespace Frostbyte
 {
-    /// <summary>
-    /// Base Class for Tileable objects
-    /// </summary>
-    /// <typeparam name="T">Will be The corresponding tile for Game/Editor</typeparam>
-    public interface TileHelper<T>
-    {
-        XElement ToXML();
-        //void SetParse(XElement elem);/// \todo make sure all things implementing the interface have one of these but static
-    }
+    ///// <summary>
+    ///// Base Class for Tileable objects
+    ///// </summary>
+    ///// <typeparam name="T">Will be The corresponding tile for Game/Editor</typeparam>
+    //public interface TileHelper<T>
+    //{
+    //    XElement ToXML();
+    //    //void SetParse(XElement elem);/// \todo make sure all things implementing the interface have one of these but static
+    //}
 
     public partial class Index2D
     {
@@ -48,7 +48,7 @@ namespace Frostbyte
         }
     }
 
-    public class Wall : TileHelper<Wall>
+    public class Wall : LevelObject
     {
         public TileTypes Type { get; set; }
 
@@ -69,7 +69,7 @@ namespace Frostbyte
             Traversable = move;
         }
 
-        public XElement ToXML()
+        public override XElement ToXML()
         {
             XElement e = new XElement("Wall");
             e.SetAttributeValue("Type", Type);
@@ -104,7 +104,7 @@ namespace Frostbyte
 #endif
     }
 
-    public class Floor : TileHelper<Floor>
+    public class Floor : LevelObject
     {
         public TileTypes Type { get; set; }
 
@@ -125,7 +125,7 @@ namespace Frostbyte
             Traversable = move;
         }
 
-        public XElement ToXML()
+        public override XElement ToXML()
         {
             XElement e = new XElement("Floor");
             e.SetAttributeValue("Type", Type);
@@ -160,7 +160,7 @@ namespace Frostbyte
 #endif
     }
 
-    public class Walls : TileHelper<Walls>
+    public class BorderWalls : LevelObject
     {
         public TileTypes Type { get; set; }
 
@@ -172,7 +172,7 @@ namespace Frostbyte
 
         public bool Traversable { get; set; }
 
-        public Walls(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
+        public BorderWalls(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
         {
             StartCell = start;
             EndCell = end;
@@ -181,7 +181,7 @@ namespace Frostbyte
             Traversable = move;
         }
 
-        public XElement ToXML()
+        public override XElement ToXML()
         {
             XElement e = new XElement("Walls");
             e.SetAttributeValue("Type", Type);
@@ -192,13 +192,13 @@ namespace Frostbyte
             return e;
         }
 
-        public static Walls Parse(XElement elem)
+        public static BorderWalls Parse(XElement elem)
         {
 #if DEBUG
             try
             {
 #endif
-                return new Walls(
+                return new BorderWalls(
                     Index2D.Parse(elem.Attribute("StartCell").Value),
                     Index2D.Parse(elem.Attribute("EndCell").Value),
                     (TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
@@ -216,4 +216,67 @@ namespace Frostbyte
 #endif
     }
 
+    public class Room : LevelObject
+    {
+        public TileTypes Type { get; set; }
+
+        public Element Theme { get; set; }
+
+        public Index2D StartCell { get; set; }
+
+        public Index2D EndCell { get; set; }
+
+        public bool Traversable { get; set; }
+
+        public Room(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
+        {
+            StartCell = start;
+            EndCell = end;
+            Type = t;
+            Theme = theme;
+            Traversable = move;
+        }
+
+        public override XElement ToXML()
+        {
+            XElement e = new XElement("Walls");
+            e.SetAttributeValue("Type", Type);
+            e.SetAttributeValue("StartCell", StartCell);
+            e.SetAttributeValue("EndCell", EndCell);
+            e.SetAttributeValue("Collision", Traversable);
+            e.SetAttributeValue("Theme", Theme);
+            return e;
+        }
+
+        public static Room Parse(XElement elem)
+        {
+#if DEBUG
+            try
+            {
+#endif
+                return new Room(
+                    Index2D.Parse(elem.Attribute("StartCell").Value),
+                    Index2D.Parse(elem.Attribute("EndCell").Value),
+                    (TileTypes)Enum.Parse(typeof(TileTypes), elem.Attribute("Type").Value),
+                    (Element)Enum.Parse(typeof(Element), elem.Attribute("Theme").Value),
+                    bool.Parse(elem.Attribute("Collision").Value)
+                    );
+#if DEBUG
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.GetBaseException().Message);
+                return null;
+            }
+        }
+#endif
+    }
+
+    public class LevelObject
+    {
+        public virtual XElement ToXML()
+        {
+            return new XElement("Level");
+        }
+    }
 }

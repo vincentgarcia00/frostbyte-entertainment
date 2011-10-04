@@ -1,9 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostbyteEntertainment", "FrostbyteEntertainment\FrostbyteEntertainment.csproj", "{FA83C6ED-A939-42D5-BE14-3874814FA1D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostbyteEntertainment", "FrostbyteEntertainment\FrostbyteEntertainment\FrostbyteEntertainment.csproj", "{FA83C6ED-A939-42D5-BE14-3874814FA1D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostbyteEntertainmentContent", "FrostbyteEntertainmentContent\FrostbyteEntertainmentContent.contentproj", "{10B26796-F422-4BFD-8AE6-9DCBDF906CD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostbyteEntertainmentContent", "FrostbyteEntertainment\FrostbyteEntertainmentContent\FrostbyteEntertainmentContent.contentproj", "{10B26796-F422-4BFD-8AE6-9DCBDF906CD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelEditor", "Tools\LevelEditor\LevelEditor\LevelEditor.csproj", "{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,16 @@ Global
 		{10B26796-F422-4BFD-8AE6-9DCBDF906CD1}.Release|Any CPU.ActiveCfg = Release|x86
 		{10B26796-F422-4BFD-8AE6-9DCBDF906CD1}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{10B26796-F422-4BFD-8AE6-9DCBDF906CD1}.Release|x86.ActiveCfg = Release|x86
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EEF675DD-A9A4-47BC-9E03-7AE75536F6A9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
