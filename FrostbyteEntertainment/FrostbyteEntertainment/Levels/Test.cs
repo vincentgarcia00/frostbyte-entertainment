@@ -50,7 +50,7 @@ namespace Frostbyte.Levels
         }
 
         BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
-
+        
         internal override void Draw(GameTime gameTime)
         {
             if (mVisible)
