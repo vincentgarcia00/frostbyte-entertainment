@@ -22,7 +22,7 @@ namespace LevelEditor
     {
         public ObservableCollection<TileGroup> TileGroups { get; set; }
 
-        public LevelObject SelectedObject { get; set; }
+        public LevelPart SelectedObject { get; set; }
 
         public Vector Grid_Size
         {
@@ -281,6 +281,63 @@ namespace LevelEditor
             //do some handling here for end of room that skips the rest
             if (SelectedTile != null && SelectedTile.IsSpecialObject)
             {
+                if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+                {
+
+
+                    if (SelectedObject == null)
+                    {
+                        Index2D i = new Index2D((int)GridCell.X, (int)GridCell.Y);
+                        // fill the pieces
+                        if (SelectedTile.Name == "Room")
+                        {
+                            SelectedObject = new Room(i)
+                            {
+                                FloorType = SelectedTile.FloorType,
+                            };
+                        }
+                        else if (SelectedTile.Name == "Walls")
+                        {
+                            SelectedObject = new BorderWalls(i)
+                            {
+                                FloorType = SelectedTile.FloorType,
+                            };
+                        }
+                        else if (SelectedTile.Name == "Wall")
+                        {
+                            SelectedObject = new Wall(i)
+                            {
+                                FloorType = SelectedTile.FloorType,
+                            };
+                        }
+                        else if (SelectedTile.Name == "Floor")
+                        {
+                            SelectedObject = new Floor(i)
+                            {
+                                FloorType = SelectedTile.FloorType,
+                            };
+                        }
+                    }
+                    else//here we complete things for the object
+                    {
+                        SelectedObject.EndCell = new Index2D((int)GridCell.X, (int)GridCell.Y);
+
+                        //determine what it is
+                        List<Tile> tiles = TileMap.Add(SelectedObject);
+
+                        foreach (Tile t in tiles)
+                        {
+                            Grid.SetColumn(t, t.GridCell.X);
+                            Grid.SetRow(t, t.GridCell.Y);
+                            This.mainWindow.Level.Children.Add(t);
+                        }
+
+                        SelectedObject = null;
+                    }
+                }
+                else if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
+                {
+                }
             }
             else
             {
@@ -290,40 +347,7 @@ namespace LevelEditor
                     {
                         GridCell = GetCell(e.GetPosition(Level));
                         FirstClick = true;
-                        if (!SelectedTile.IsSpecialObject)
-                            AddTile(GridCell);
-                        else
-                        {
-                            // fill all of it
-                            if (SelectedTile.Name == "Room")
-                            {
-                                SelectedObject = new Room(new Index2D((int)GridCell.X, (int)GridCell.Y))
-                                {
-                                    FloorType = SelectedTile.FloorType,
-                                };
-                            }
-                            else if (SelectedTile.Name == "Walls")
-                            {
-                                SelectedObject = new BorderWalls(new Index2D((int)GridCell.X, (int)GridCell.Y))
-                                {
-                                    FloorType = SelectedTile.FloorType,
-                                };
-                            }
-                            else if (SelectedTile.Name == "Wall")
-                            {
-                                SelectedObject = new Wall(new Index2D((int)GridCell.X, (int)GridCell.Y))
-                                {
-                                    FloorType = SelectedTile.FloorType,
-                                };
-                            }
-                            else if (SelectedTile.Name == "Floor")
-                            {
-                                SelectedObject = new Floor(new Index2D((int)GridCell.X, (int)GridCell.Y))
-                                {
-                                    FloorType = SelectedTile.FloorType,
-                                };
-                            }
-                        }
+                        AddTile(GridCell);
                     }
                 }
                 else if (e.MouseDevice.RightButton == MouseButtonState.Pressed)

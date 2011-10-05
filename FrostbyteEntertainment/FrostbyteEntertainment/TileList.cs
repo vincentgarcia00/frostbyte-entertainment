@@ -132,6 +132,15 @@ namespace Frostbyte
             //it's a level editor tile
             return false;
         }
+
+        /// <summary>
+        /// Determines what an object is and adds it to the level
+        /// </summary>
+        /// <param name="obj">Object we want to split and add</param>
+        internal List<T> Add(LevelPart obj)
+        {
+            throw new NotImplementedException();
+        }
         #endregion Adds
 
         #region RemoveItems
@@ -240,5 +249,5 @@ namespace Frostbyte
 
             return tl;
         }
-    }
+            }
 }

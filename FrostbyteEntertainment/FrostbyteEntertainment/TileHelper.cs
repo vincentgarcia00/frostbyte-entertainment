@@ -48,22 +48,8 @@ namespace Frostbyte
         }
     }
 
-    public class Wall : LevelObject
+    public class Wall : LevelPart
     {
-        public Index2D StartCell
-        {
-            get
-            {
-                return GridCell;
-            }
-            set
-            {
-                GridCell = value;
-            }
-        }
-
-        public Index2D EndCell { get; set; }
-
         public Wall(Index2D start, Index2D end, TileTypes t, Element theme, bool move = false)
         {
             StartCell = start;
@@ -113,22 +99,8 @@ namespace Frostbyte
 #endif
     }
 
-    public class Floor : LevelObject
+    public class Floor : LevelPart
     {
-        public Index2D StartCell
-        {
-            get
-            {
-                return GridCell;
-            }
-            set
-            {
-                GridCell = value;
-            }
-        }
-
-        public Index2D EndCell { get; set; }
-
         public Floor(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true, FloorTypes f = FloorTypes.Themed)
         {
             StartCell = start;
@@ -179,22 +151,8 @@ namespace Frostbyte
 #endif
     }
 
-    public class BorderWalls : LevelObject
+    public class BorderWalls : LevelPart
     {
-        public Index2D StartCell
-        {
-            get
-            {
-                return GridCell;
-            }
-            set
-            {
-                GridCell = value;
-            }
-        }
-
-        public Index2D EndCell { get; set; }
-
         public BorderWalls(Index2D start, Index2D end, TileTypes t, Element theme, bool move = true)
         {
             StartCell = start;
@@ -244,22 +202,8 @@ namespace Frostbyte
 #endif
     }
 
-    public class Room : LevelObject
+    public class Room : LevelPart
     {
-        public Index2D StartCell
-        {
-            get
-            {
-                return GridCell;
-            }
-            set
-            {
-                GridCell = value;
-            }
-        }
-
-        public Index2D EndCell { get; set; }
-
         public Room(Index2D start, Index2D end, Element theme, FloorTypes f = FloorTypes.Themed, bool move = true)
         {
             StartCell = start;
@@ -347,5 +291,22 @@ namespace Frostbyte
         {
             return new XElement("Level");
         }
+    }
+
+    public class LevelPart : LevelObject
+    {
+        public Index2D StartCell
+        {
+            get
+            {
+                return GridCell;
+            }
+            set
+            {
+                GridCell = value;
+            }
+        }
+
+        public Index2D EndCell { get; set; }
     }
 }

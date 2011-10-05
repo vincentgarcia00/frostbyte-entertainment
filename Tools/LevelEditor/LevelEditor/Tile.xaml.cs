@@ -95,6 +95,18 @@ namespace LevelEditor
             }
         }
 
+        public Index2D GridCell
+        {
+            get
+            {
+                return t.GridCell;
+            }
+            set
+            {
+                t.GridCell = value;
+            }
+        }
+
         public Frostbyte.Tile ValueTile
         {
             get
