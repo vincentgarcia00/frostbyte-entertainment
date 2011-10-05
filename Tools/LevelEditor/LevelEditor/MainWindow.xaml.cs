@@ -238,10 +238,16 @@ namespace LevelEditor
         {
             if (CancelSelection && e.MouseDevice.RightButton == MouseButtonState.Released)
             {
-                SelectedTile = null;
+                //clear selections
+                foreach (TileGroup elem in Objects.Items)
+                {
+                    elem.Tiles.SelectedIndex = -1;
+                }
                 ClearTile = true;
                 CancelSelection = false;
             }
+
+            Moving = false;
         }
 
         void Level_MouseMove(object sender, MouseEventArgs e)
@@ -250,6 +256,7 @@ namespace LevelEditor
             {
                 if (SelectedTile != null)
                 {
+                    Moving = true;
                     if (!SelectedTile.IsSpecialObject)
                         AddTile(GetCell(e.GetPosition(Level)));
                     else
@@ -319,13 +326,13 @@ namespace LevelEditor
                         }
                     }
                 }
-                if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
+                else if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
                 {
                     if (ClearTile)
                     {
                         GridCell = GetCell(e.GetPosition(Level));
                         RemoveTile(GridCell);
-                        ClearTile = true;
+                        FirstClick = true;
                     }
                     CancelSelection = true;
                 }
@@ -336,7 +343,7 @@ namespace LevelEditor
         {
             if (newpt != GridCell || FirstClick)
             {
-                if(GridCell.X<0||GridCell.Y<0||GridCell.X>gridSize.X||GridCell.Y>gridSize.Y)
+                if (GridCell.X < 0 || GridCell.Y < 0 || GridCell.X > gridSize.X || GridCell.Y > gridSize.Y)
                 {
                     GridCell = newpt;
                 }
@@ -348,7 +355,7 @@ namespace LevelEditor
                 Vector dir = Horiz ? new Vector(diff.X, 0) : new Vector(0, diff.Y);
                 dir.Normalize();
 
-                while (FirstClick||(Horiz ? GridCell.X != newpt.X : GridCell.Y != newpt.Y))
+                while (FirstClick || (Horiz ? GridCell.X != (Moving ? newpt.X + dir.X : newpt.X) : GridCell.Y != (Moving ? newpt.Y + dir.Y : newpt.Y)))
                 {
                     if (GridCell.X < 0 || GridCell.Y < 0)
                         GridCell = newpt;
@@ -369,12 +376,15 @@ namespace LevelEditor
                         TileMap.Add(toadd, x, y);
                     }
 
-                    if ((Horiz ? GridCell.X != newpt.X : GridCell.Y != newpt.Y))
+                    if ((Horiz ? GridCell.X != (Moving ? newpt.X + dir.X : newpt.X) : GridCell.Y != (Moving ? newpt.Y + dir.Y : newpt.Y)))
                         GridCell += dir;
-                    FirstClick = false;
+                    else
+                    {
+                        FirstClick = false;
+                    }
                 }
 
-                
+
 
                 //set the new last grid point
                 GridCell = newpt;
@@ -385,14 +395,40 @@ namespace LevelEditor
         {
             //remove old element
             List<Tile> toRemove = new List<Tile>();
-            foreach (Tile item in Level.Children)
+
+            if (newpt != GridCell || FirstClick)
             {
-                int x = Grid.GetColumn(item);
-                int y = Grid.GetRow(item);
-                if ((int)GridCell.X == x && (int)GridCell.Y == y)
+                if (GridCell.X < 0 || GridCell.Y < 0 || GridCell.X > gridSize.X || GridCell.Y > gridSize.Y)
                 {
-                    toRemove.Add(item);
+                    GridCell = newpt;
                 }
+                //deterimine which coord changed more
+                Vector diff = newpt - GridCell;
+
+                bool Horiz = (diff.X < 0 ? -diff.X : diff.X) > (diff.Y < 0 ? -diff.Y : diff.Y);
+
+                Vector dir = Horiz ? new Vector(diff.X, 0) : new Vector(0, diff.Y);
+                dir.Normalize();
+
+                while (FirstClick || (Horiz ? GridCell.X != (Moving ? newpt.X + dir.X : newpt.X) : GridCell.Y != (Moving ? newpt.Y + dir.Y : newpt.Y)))
+                {
+                    if (GridCell.X < 0 || GridCell.Y < 0)
+                        GridCell = newpt;
+                    foreach (Tile item in Level.Children)
+                    {
+                        int x = Grid.GetColumn(item);
+                        int y = Grid.GetRow(item);
+                        if ((int)GridCell.X == x && (int)GridCell.Y == y)
+                        {
+                            toRemove.Add(item);
+                        }
+                    }
+                    if ((Horiz ? GridCell.X != (Moving ? newpt.X + dir.X : newpt.X) : GridCell.Y != (Moving ? newpt.Y + dir.Y : newpt.Y)))
+                        GridCell += dir;
+                    FirstClick = false;
+                }
+                //set the new last grid point
+                GridCell = newpt;
             }
             foreach (var elem in toRemove)
             {
@@ -406,11 +442,22 @@ namespace LevelEditor
             }
         }
 
+        /// <summary>
+        /// Wheter we can clear tiles or not
+        /// </summary>
         public bool ClearTile { get; set; }
-
+        /// <summary>
+        /// We can cancel our current selectin
+        /// </summary>
         public bool CancelSelection { get; set; }
-
+        /// <summary>
+        /// This is the first left click
+        /// </summary>
         public bool FirstClick { get; set; }
+        /// <summary>
+        /// The mouse is moving, keep drawing
+        /// </summary>
+        public bool Moving { get; set; }
     }
 
 
