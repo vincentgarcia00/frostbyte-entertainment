@@ -107,7 +107,7 @@ namespace LevelEditor
             }
         }
 
-        public Frostbyte.Tile ValueTile
+        public Frostbyte.Tile TileValue
         {
             get
             {
@@ -156,6 +156,17 @@ namespace LevelEditor
             InMenu = other.InMenu;
             DataContext = other;
             
+        }
+
+        public Tile(Frostbyte.Tile t):this()
+        {
+            InitializeComponent();
+            this.t = t;
+            Active = true;
+            InMenu = false;
+            Grid.SetColumn(this, t.GridCell.X);
+            Grid.SetRow(this, t.GridCell.Y);
+            DataContext = this;
         }
 
         public static Tile DeepCopy(Tile SelectedTile)

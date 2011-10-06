@@ -10,7 +10,7 @@ namespace Frostbyte
     /// Wraper class for our dictionary that allows us to most efficiently obtain data from the dictionary
     /// Shared with The Level Editor
     /// </summary>
-    public partial class TileList<T> where T : new()
+    public partial class TileList<T> where T : LevelObject, new()
     {
         /// <summary>
         /// Dict of the form [y,x]=Tile
@@ -90,12 +90,14 @@ namespace Frostbyte
         /// <summary>
         /// Adds the Wall to ListObjects and adds all relevant cells to the grid
         /// </summary>
-        /// <param name="r">Wall to add</param>
+        /// <param name="w">Wall to add</param>
         /// <returns>Success</returns>
-        internal bool Add(Wall r)
+        internal bool Add(Wall w, out List<T> Tiles)
         {
-            LevelParts.Add(r);
+            LevelParts.Add(w);
             //add tiles to the list
+
+            Tiles = new List<T>();
             return true;
         }
 
@@ -124,7 +126,7 @@ namespace Frostbyte
                 if (r as Tile != null)
                 {
                     Tile t = r as Tile;
-                    mTiles[t.GridCell.Y][t.GridCell.X] = r;
+                    Add(r, r.GridCell.X, r.GridCell.Y);
                     LevelParts.Add(t);
                     return true;
                 }
@@ -139,7 +141,158 @@ namespace Frostbyte
         /// <param name="obj">Object we want to split and add</param>
         internal List<T> Add(LevelPart obj)
         {
-            throw new NotImplementedException();
+            List<T> tiles = new List<T>();
+            //deterime what it is
+            if (obj.GetType() == typeof(Room))
+            {
+                Room r = obj as Room;
+                //we're going to be getting them a lot otherwise
+                Index2D start = r.StartCell;
+                Index2D end = r.EndCell;
+                List<T> t;
+                Add(new BorderWalls(r), out t);
+
+                //for some reson foreach doesn't work here
+                for(int i=0; i< t.Count;i++)
+                {
+                    tiles.Add(t[i]);
+                }
+
+                //place floor
+                for (int x = start.X; x < end.X; x++)
+                {
+                }
+            }
+            if (obj.GetType() == typeof(BorderWalls))
+            {
+                List<T> t;
+                Add(obj as BorderWalls, out t);
+
+                //for some reson foreach doesn't work here
+                for (int i = 0; i < t.Count; i++)
+                {
+                    tiles.Add(t[i]);
+                }
+            }
+
+            return tiles;
+        }
+
+        private void Add(BorderWalls w, out List<T> Tiles)
+        {
+            //we're going to be getting them a lot otherwise
+            Index2D start = w.StartCell;
+            Index2D end = w.EndCell;
+
+            List<T> tiles = new List<T>();
+            //place corners
+            //TL
+            T t = new T()
+            {
+                Type = TileTypes.Corner,
+                Theme = w.Theme,
+                Traversable = false,
+                Orientation = Orientations.Right,
+                GridCell = start,
+            };
+            tiles.Add(t);
+            Add(t, t.GridCell.X, t.GridCell.Y);
+
+            //TR
+            t = new T()
+            {
+                Type = TileTypes.Corner,
+                Theme = w.Theme,
+                Traversable = false,
+                Orientation = Orientations.Down,
+                GridCell = new Index2D(end.X, start.Y)
+            };
+            tiles.Add(t);
+            Add(t, t.GridCell.X, t.GridCell.Y);
+
+            //BL
+            t = new T()
+            {
+                Type = TileTypes.Corner,
+                Theme = w.Theme,
+                Traversable = false,
+                Orientation = Orientations.Up_Right,
+                GridCell = new Index2D(start.X, end.Y)
+            };
+            tiles.Add(t);
+            Add(t, t.GridCell.X, t.GridCell.Y);
+
+            //BR
+            t = new T()
+            {
+                Type = TileTypes.Corner,
+                Theme = w.Theme,
+                Traversable = false,
+                Orientation = Orientations.Up,
+                GridCell = new Index2D(end.X, end.Y)
+            };
+            tiles.Add(t);
+            Add(t, t.GridCell.X, t.GridCell.Y);
+
+
+
+            //place side walls
+            for (int y = start.Y + 1; y < end.Y; y++)
+            {
+                //Add left
+                t = new T()
+                {
+                    Type = TileTypes.SideWall,
+                    Theme = w.Theme,
+                    Traversable = false,
+                    Orientation = Orientations.Right,
+                    GridCell = new Index2D(start.X, y)
+                };
+                tiles.Add(t);
+                Add(t, t.GridCell.X, t.GridCell.Y);
+
+                //Add Right
+                t = new T()
+                {
+                    Type = TileTypes.SideWall,
+                    Theme = w.Theme,
+                    Traversable = false,
+                    Orientation = Orientations.Left,
+                    GridCell = new Index2D(end.X, y)
+                };
+                tiles.Add(t);
+                Add(t, t.GridCell.X, t.GridCell.Y);
+
+            }
+            //Place top Walls and bottom
+            for (int x = start.X + 1; x < end.X; x++)
+            {
+                //Add Top
+                t = new T()
+                {
+                    Type = TileTypes.Wall,
+                    Theme = w.Theme,
+                    Traversable = false,
+                    Orientation = Orientations.Down,
+                    GridCell = new Index2D(x, start.Y)
+                };
+                tiles.Add(t);
+                Add(t, t.GridCell.X, t.GridCell.Y);
+
+                //Add Bottom
+                t = new T()
+                {
+                    Type = TileTypes.Wall,
+                    Theme = w.Theme,
+                    Traversable = false,
+                    Orientation = Orientations.Up,
+                    GridCell = new Index2D(x, end.Y)
+                };
+                tiles.Add(t);
+                Add(t, t.GridCell.X, t.GridCell.Y);
+
+            }
+            Tiles = tiles;
         }
         #endregion Adds
 
@@ -249,5 +402,5 @@ namespace Frostbyte
 
             return tl;
         }
-            }
+    }
 }

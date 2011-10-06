@@ -20,11 +20,23 @@ namespace Frostbyte
 
     public partial class Index2D
     {
+        /// <summary>
+        /// Creates an index into a 2D array
+        /// </summary>
+        /// <param name="x">Xcoord == Column</param>
+        /// <param name="y">Ycoord == Row</param>
         public Index2D(int x, int y)
         {
             X = x;
             Y = y;
         }
+
+        /// <summary>
+        /// Creates an index into a 2D array (hacks off the double to an int)
+        /// </summary>
+        /// <param name="x">Xcoord == Column WARNING: this is floored</param>
+        /// <param name="y">Ycoord == Row WARNING: this is floored</param>
+        public Index2D(double x, double y) : this((int)x, (int)y) { }
 
 #if LEVELEDITOR
         //Stuff for Level editor goes here
@@ -62,6 +74,15 @@ namespace Frostbyte
         public Wall(Index2D start)
         {
             StartCell = start;
+        }
+
+        public Wall(BorderWalls b)
+        {
+            StartCell = b.StartCell;
+            EndCell = b.EndCell;
+            Type = b.Type;
+            Theme = b.Theme;
+            Traversable = false;
         }
 
         public override XElement ToXML()
@@ -165,6 +186,15 @@ namespace Frostbyte
         public BorderWalls(Index2D start)
         {
             StartCell = start;
+        }
+
+        public BorderWalls(Room r)
+        {
+            StartCell = r.StartCell;
+            EndCell = r.EndCell;
+            Type = r.Type;
+            Theme = r.Theme;
+            Traversable = false;
         }
 
         public override XElement ToXML()

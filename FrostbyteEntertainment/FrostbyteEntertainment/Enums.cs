@@ -75,6 +75,10 @@ namespace Frostbyte
         /// </summary>
         Water,
         /// <summary>
+        /// Sidewall (faces left so we need to set Orientation accordingly to ensure flips)
+        /// </summary>
+        SideWall,
+        /// <summary>
         /// For Room class (needed for editor)
         /// </summary>
         Room,

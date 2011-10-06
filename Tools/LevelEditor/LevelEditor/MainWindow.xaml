@@ -25,7 +25,10 @@
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="10"/>
 				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="0.2*"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="Grid Dimensions:" HorizontalAlignment="Left"/>
 			<TextBox x:Name="GridSize" Text="{Binding Grid_Size, Mode=TwoWay}" HorizontalAlignment="Left" Grid.Column="1"/>

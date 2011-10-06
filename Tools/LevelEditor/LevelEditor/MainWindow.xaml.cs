@@ -41,11 +41,11 @@ namespace LevelEditor
 
         public Vector GridCell = new Vector(-1, -1);
 
-        public int Cellsize = 32;
+        public int Cellsize = 64;
 
         public Tile SelectedTile { get; set; }
 
-        public static Frostbyte.TileList<Tile> TileMap = new TileList<Tile>();
+        public static Frostbyte.TileList<Frostbyte.Tile> TileMap = new TileList<Frostbyte.Tile>();
 
         public MainWindow()
         {
@@ -73,7 +73,7 @@ namespace LevelEditor
                 new Tile(){
                     Name="Wall_Left",
                     Traversable=false,
-                    Type=TileTypes.Wall,
+                    Type=TileTypes.SideWall,
                     Orientation = Orientations.Right,
                     Active=true
                 },
@@ -81,7 +81,7 @@ namespace LevelEditor
                 new Tile(){
                     Name="Wall_Right",
                     Traversable=false,
-                    Type=TileTypes.Wall,
+                    Type=TileTypes.SideWall,
                     Orientation = Orientations.Left,
                     Active=true
                 },
@@ -97,7 +97,7 @@ namespace LevelEditor
                     Name="Corner_TL",
                     Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation=Orientations.Down,
+                    Orientation=Orientations.Right,
                     Active=true
                 },
 
@@ -105,7 +105,7 @@ namespace LevelEditor
                     Name="Corner_TR",
                     Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation=Orientations.Left,
+                    Orientation=Orientations.Down,
                     Active=true
                 },
 
@@ -122,7 +122,7 @@ namespace LevelEditor
                     Name="Corner_BL",
                     Traversable=false,
                     Type=TileTypes.Corner,
-                    Orientation = Orientations.Right,
+                    Orientation = Orientations.Up_Right,
                     Active=true
                 }
             };
@@ -207,7 +207,7 @@ namespace LevelEditor
             //open save box and then create all the crap that needs to get saved
         }
 
-        void LoadGrid(TileList<Tile> t)
+        void LoadGrid(TileList<Frostbyte.Tile> t)
         {
             TileMap = t;
             var l = t.Data;
@@ -231,7 +231,7 @@ namespace LevelEditor
                 Level.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(Cellsize) });
             }
             Level.Width = Level.RowDefinitions.Count * Cellsize;
-            Level.Height = Level.ColumnDefinitions.Count * Cellsize;
+            Level.Height = Level.ColumnDefinitions.Count * Cellsize ;
         }
 
         void Level_MouseUp(object sender, MouseButtonEventArgs e)
@@ -283,11 +283,10 @@ namespace LevelEditor
             {
                 if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
                 {
-
-
                     if (SelectedObject == null)
                     {
-                        Index2D i = new Index2D((int)GridCell.X, (int)GridCell.Y);
+                        GridCell = GetCell(e.GetPosition(Level));
+                        Index2D i = new Index2D(GridCell.X, GridCell.Y);
                         // fill the pieces
                         if (SelectedTile.Name == "Room")
                         {
@@ -320,10 +319,11 @@ namespace LevelEditor
                     }
                     else//here we complete things for the object
                     {
-                        SelectedObject.EndCell = new Index2D((int)GridCell.X, (int)GridCell.Y);
+                        GridCell=GetCell(e.GetPosition(Level));
+                        SelectedObject.EndCell = new Index2D(GridCell.X, GridCell.Y);
 
                         //determine what it is
-                        List<Tile> tiles = TileMap.Add(SelectedObject);
+                        List<Tile> tiles = ToListTile(TileMap.Add(SelectedObject));
 
                         foreach (Tile t in tiles)
                         {
@@ -363,6 +363,16 @@ namespace LevelEditor
             }
         }
 
+        private List<Tile> ToListTile(List<Frostbyte.Tile> list)
+        {
+            List<Tile> ts = new List<Tile>();
+            foreach (var t in list)
+            {
+                ts.Add(new Tile(t));
+            }
+            return ts;
+        }
+
         private void AddTile(Vector newpt)
         {
             if (newpt != GridCell || FirstClick)
@@ -387,6 +397,8 @@ namespace LevelEditor
 
                     //draw the selecteditem
                     Tile toadd = Tile.DeepCopy(SelectedTile);
+                    if(toadd.GridCell==null)
+                    toadd.GridCell = new Index2D(GridCell.X, GridCell.Y);
 
                     //set the cell
                     int y = (int)GridCell.Y;
@@ -395,9 +407,9 @@ namespace LevelEditor
                     Grid.SetColumn(toadd, x);
 
                     Level.Children.Add(toadd);
-                    if (!TileMap.Add(toadd))
+                    if (!TileMap.Add(toadd.TileValue))
                     {
-                        TileMap.Add(toadd, x, y);
+                        TileMap.Add(toadd.TileValue, x, y);
                     }
 
                     if ((Horiz ? GridCell.X != (Moving ? newpt.X + dir.X : newpt.X) : GridCell.Y != (Moving ? newpt.Y + dir.Y : newpt.Y)))
@@ -457,11 +469,11 @@ namespace LevelEditor
             foreach (var elem in toRemove)
             {
                 Level.Children.Remove(elem);
-                if (!TileMap.Remove(elem))
+                if (!TileMap.Remove(elem.TileValue))
                 {
                     int x = Grid.GetColumn(elem);
                     int y = Grid.GetRow(elem);
-                    TileMap.Remove(elem, x, y);
+                    TileMap.Remove(elem.TileValue, x, y);
                 }
             }
         }
@@ -493,7 +505,20 @@ namespace LevelEditor
             if (value != null)
             {
                 Orientations o = (Orientations)value;
-                return new RotateTransform(90 * (int)o);
+                if (o == Orientations.Up_Right)
+                {
+                    return new ScaleTransform(-1, -1);
+                }
+                if (o == Orientations.Up)
+                {
+                    return new ScaleTransform(1, -1);
+                }
+                if (o == Orientations.Right)
+                {
+                    return new ScaleTransform(-1, 1);
+                }
+
+                //return new RotateTransform(90 * (int)o);
 
             }
             return new RotateTransform(0);
@@ -520,7 +545,7 @@ namespace LevelEditor
                         file = "wall.png";
                         break;
                     case TileTypes.Bottom:
-                        file = "sidewall.png";
+                        file = "wall.png";
                         break;
                     case TileTypes.Corner:
                         file = "corner.png";
@@ -533,6 +558,9 @@ namespace LevelEditor
                         break;
                     case TileTypes.Water:
                         file = "water.png";
+                        break;
+                    case TileTypes.SideWall:
+                        file = "side.png";
                         break;
                     case TileTypes.Room:
                         //do some magic to show pic for the walls etc
