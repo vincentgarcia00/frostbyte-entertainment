@@ -27,9 +27,9 @@ namespace Frostbyte.Characters
         internal Mage(string name, Actor actor, PlayerIndex input)
             : base(name, actor)
         {
-            controller = new Controller(input);
+            controller = new GamePadController(input);//new KeyboardController();
             currentTargetAlignment = TargetAlignment.None;
-            target = new Frostbyte.Levels.Target("target", new Actor(new DummyAnimation("target")));
+            target = new Frostbyte.Levels.Target("target", new Actor(new DummyAnimation("target.anim")));
             target.mVisible = false;
             sortType = new DistanceSort(this);
 
@@ -40,7 +40,7 @@ namespace Frostbyte.Characters
         #region Variables
         private Sprite currentTarget = null;
         private TargetAlignment currentTargetAlignment;
-        private Controller controller;
+        private IController controller;
         private Sprite target;
         BasicEffect basicEffect = new BasicEffect(This.Game.GraphicsDevice);
         private IComparer<Sprite> sortType;
